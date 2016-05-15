@@ -18,8 +18,12 @@ angular
     'ngTouch',
     'ui.router'
   ])
-  .config(function ($routeProvider ,$urlRouterProvider,$stateProvider) {
-      $urlRouterProvider.otherwise('/');
+  .config(function ($routeProvider ,$urlRouterProvider,$stateProvider,$locationProvider) {
+    $locationProvider.html5Mode({
+     enabled: true
+     }).hashPrefix('!');
+
+    $urlRouterProvider.otherwise('/');
     
     $stateProvider
         .state('gobazarlite', {
@@ -39,6 +43,18 @@ angular
         })
         .state('gobazarlite.home', {
           url: '/',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/home.html',
+              controller: 'HomeCtrl'
+            }
+          },
+          resolve:{
+            
+          }
+        })
+        .state('gobazarlite.listing', {
+          url: '/mobile-listing',
           views: {
             '@':{
               templateUrl: 'views/pages/home.html',

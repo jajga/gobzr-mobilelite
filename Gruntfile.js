@@ -18,7 +18,7 @@ module.exports = function (grunt) {
     ngtemplates: 'grunt-angular-templates',
     cdnify: 'grunt-google-cdn'
   });
-
+  var modRewrite = require('connect-modrewrite');
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
@@ -80,16 +80,17 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
-              connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
+            modRewrite(['^[^\\.]*$ /index.html [L]']),
+            connect.static('.tmp'),
+            connect().use(
+              '/bower_components',
+              connect.static('./bower_components')
               ),
-              connect().use(
-                '/app/styles',
-                connect.static('./app/styles')
+            connect().use(
+              '/app/styles',
+              connect.static('./app/styles')
               ),
-              connect.static(appConfig.app)
+            connect.static(appConfig.app)
             ];
           }
         }
