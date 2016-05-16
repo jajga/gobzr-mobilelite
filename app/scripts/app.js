@@ -35,8 +35,10 @@ angular
             }
           },
           resolve:{
-            creteSession:function(user){
-              return user.getSessionId();
+            creteSession:function(user,$cookies){
+              if(!$cookies.get('sessionId')){
+                return user.getSessionId();
+              }  
             }
           }
 

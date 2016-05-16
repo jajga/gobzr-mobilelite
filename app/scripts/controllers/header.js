@@ -10,9 +10,9 @@
 angular.module('gobzrliteApp')
   .controller('HeaderCtrl', function (user,$cookies,$scope) {
 
-  	var sessionID = $cookies.get('sessionID');
+  	var sessionID = $cookies.get('sessionId');
 
-	$scope.refreshCart=function(){
+	$scope.refreshCart=function(sessionID){
 
 		user.getCart(sessionID).success(function(results){
 			if(results.responseCode === "FAILURE"){
@@ -38,7 +38,7 @@ angular.module('gobzrliteApp')
 
  	}
 
- 	$scope.refreshCart();
+ 	$scope.refreshCart(sessionID);
   
 
   });
