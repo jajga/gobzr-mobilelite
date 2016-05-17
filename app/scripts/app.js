@@ -66,7 +66,65 @@ angular
           resolve:{
             
           }
+        })
+        .state('gobazarlite.product', {
+          url: '/product-description/:GbuCode/:productName/pdp',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/productdesc.html',
+              controller: 'ProductCtrl'
+            }
+          },
+          resolve:{
+            
+          }
         });
-  }).run(function($rootScope){
+  }).run(function($rootScope,global,liveCategory,$stateParams,$cookies){
     $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
+    $rootScope.hrefPdpUrl='product-description/'
+    //window.categoryStates={};
+    liveCategory.getLiveCategory().success(function (results) {
+      //window.categoryStates=results;
+
+      //var results=JSON.parse(window.categoryStates);
+          
+          //$log.info("SUCCESS_"+$cookies.get('sessionID')+'_'+$location.path()+'_'+catUrl+" ---- response ---- "+JSON.stringify(results));  
+          //$log.info("SUCCESS ---- "+catUrl+" ---- response ---- "+JSON.stringify(results));
+            if(results.responseCode=="SUCCESS") 
+            {       //$log.info(makeUiLog($cookies.get('sessionID'),$location.path(),results.responseCode,catUrl,results,""));
+                              var cName=new Array();
+                              var cName1='';
+                //              console.log(results.entitiesResponse['0']['baseDTO']['categoryHierarchyWrapperDTOObj'])
+                              
+                              var dataCategory=results.entitiesResponse['0']['baseDTO']['categoryHierarchyWrapperDTOObj'];
+                              for (var i = 0; i < dataCategory.length; i++) {
+                                cName[i]=dataCategory[i].categoryName+':'+dataCategory[i].categoryId;
+                                cName1=cName1+dataCategory[i].categoryName+',';
+                              };
+                              // $cookies.put('categoryIdList',JSON.stringify(cName));
+                              $rootScope.categoryIdList=JSON.stringify(cName);
+                              $rootScope.categoryIdListName=cName1;
+                              console.log($stateParams.categoryName);
+                              var customeProductHomeId=getCategoryId($stateParams.categoryName,$rootScope.categoryIdList) 
+                              console.log(customeProductHomeId);
+                              $cookies.put('categoryId',customeProductHomeId);
+                  }
+
+
+                 
+    })
+
   });
+function getCategoryId(categoryName,cookieData)
+                 {
+                  var cList=[];
+                  var categoryListNew=JSON.parse(cookieData);
+                  //console.log(categoryListNew);
+                  for(var i=0;i<categoryListNew.length;i++){
+                    cList=categoryListNew[i].split(':');
+                      if(cList[0].toUpperCase()==categoryName.toUpperCase()){
+                        return cList[1];
+                        break;
+                      }
+                    }
+                 };

@@ -1,0 +1,90 @@
+    <div class="col-sm-12 col-m-12 col-xs-12 ">  
+      <div id="site-canvas">
+    <div id="mainCont" role="main">
+      <div class="row">
+        <div class="col-lg-12" id="mainContainer">
+          <article id="post-114" class="post-114 page type-page status-publish hentry">
+            <div class="entry-content">
+            <!-- well --> 
+              <div class="live-example mzp no-top-margin mobilestops">
+                <div class="tr">
+                  <div class="tr-td">
+                    <div class="lt"></div>
+                  </div>
+
+               <div> <img ng-src="http://static.gobazaar.com/dynamic/products/{{productDescription.gbucode}}/{{bigImage[0]}}" style="width:400px;"></div>
+
+                  <div class="tr-td">
+                    <div class="rt">
+                      <div class="text-center bottom-text font-size-14px"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> 
+          </article>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+      
+    </div>
+
+          <div class="col-sm-12 col-m-12 col-xs-12 pdpheadline" id="headline" >
+          <br><br>
+          <h2 id="pdpproductsname"><span ng-bind="productDescription.title"></span></h2>
+          <span id="pdpproductssubtitile" class="pdpheadlines" ng-bind="productDescription.subtitle"></span>
+          <h4 id="pdpprice" ng-if="inStock.amount!=0 || (vendorSalePricePerUnit!=0 && vendorSalePricePerUnit!=undefined)"><span ng-bind="unitPrice" ng-if="vendorSalePricePerUnit"></span><span ng-bind="vendorSalePricePerUnit| currency:'' "></span></h4>
+
+          <div class="discount" ng-if="inStock.amount!=0  || (vendorSalePricePerUnit!=0 && vendorSalePricePerUnit!=undefined)">
+            <span  ng-if="vendorPricePerUnit"></span>
+            <strike class="discount_given_bg">
+                <h4 class="discount_given" ng-bind="vendorPricePerUnit| currency:'' "></h4>
+            </strike>
+            <!-- <span id="pdpdisc_percent" class="disc_percent" ng-if="discount >= 1">({{(discount | number:0)*1}} % Off)</span> -->
+          </div>
+          <span class="pdpheadlines"  ng-if="productDescription.salepriceperunit!=0">(Inclusive of all taxes)</span><br>
+          <div class="out-Of-stock-conpdp" ng-if="inStock.amount==0 && productDescription.salepriceperunit==0">Out Of Stock</div>
+          <div class="outOfStockConPdpOnPrice out-Of-stock-conpdp" ng-if="inStock.amount==0 && productDescription.salepriceperunit>0">Out Of Stock</div>
+
+          <div  ng-if="productDescription.salepriceperunit != 0">
+            <p class="contentspdp">
+              <span ng-repeat="features in keyfeatures">
+                <strong>&bull;</strong> <span ng-bind="features"></span><br>
+              </span>
+              <strong>&bull;</strong> GBU code:<span ng-bind="productDescription.gbucode"></span>
+            </p>
+          </div>
+          
+          <div ng-if="productDescription.salepriceperunit == 0">
+            <p class="contentspdp">
+              <span ng-repeat="features in keyfeatures">
+               <strong>&bull;</strong> <span ng-bind="features"></span><br>
+              </span>
+              <strong>&bull;</strong> GBU code:<span ng-bind="productDescription.gbucode"></span>
+            </p>
+          </div>
+
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+          <br><br>
+
+          
+          <form  name="addCart" id="addCart" method="POST">
+            <div class="addtocartimg">
+               <a href="javascript:void(0);" style="cursor:default" id="productdescriptionaddtocart">
+                <img ng-src="{{imageUrl}}/add-to-cart.jpg" class="img-responsive" />
+               </a>
+            </div>
+            <div class="addtocartbutton">
+              <!-- <input type="hidden" ng-model="qty" value="{{qty}}"  id="quantity{{productDescription.gbucode}}"  > -->
+              <button id="productdescriptionpdp" class="btn btn-danger" ng-if="inStock.amount > 0 && !disableAddToCartButton && productDescription.salepriceperunit!=0" ng-click="addToCartFromPdp(productDescription.gbucode,vendorPricePerUnit,productDescription.productid,productDescription.productstatus,vendorSalePricePerUnit,productDescription.shippingcost,vendorId,productDescription.subtitle,productDescriptionCartImage,productDescription.productname,vendorSkuId,productDescription.brandname,productDescription.modelname,productDescription.categoryname,productDescription.categoryid,productDescription.title)" >ADD TO CART</button>
+              <button id="productdescriptionpdp" class="btn btn-grey" style="background-color: #acacac;border-color:#acacac" ng-if="!disableAddToCartButton && (inStock.amount == 0 || productDescription.salepriceperunit==0)" disabled>ADD TO CART</button>
+        
+              <!-- <a class="tooltip1" customtitle="The product is already added in cart!"> 
+                <button id="productdescriptionpdp" class="btn btn-grey" style="background-color: #acacac;border-color:#acacac" ng-if="disableAddToCartButton && (inStock.amount != 0 || productDescription.salepriceperunit!=0)" disabled>ADD TO CART</button> 
+              </a>  -->
+            </div>
+        </div>
