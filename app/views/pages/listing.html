@@ -1,6 +1,6 @@
 <div class="container">
 <div class="row">
-	<div class="col-lg-6 col-md-6" ng-repeat="data in productOnTheBasisOfCategory">
+	<div class="col-sm-6 col-m-6  col-xs-6" ng-repeat="data in productOnTheBasisOfCategory">
 		<div >
 			<div id="produstlistingselectprod" class="catThmbCon" ng-if="data.gbucode.substr(0,1)!='F'">
   <a href="{{hrefPdpUrl}}{{data.gbucode}}/{{data.productDetails.productname}}/pdp" ng-click="gtmProvider.productClick(data.gbucode+'/'+data.productDetails.productname+'/pdp',data.productDetails.title+' '+data.productDetails.subtitle,data.gbucode,data.salepriceperunit,data.productDetails.brandname,data.productDetails.categoryname)" id="productswhitelisting" style="text-decoration:none;">
