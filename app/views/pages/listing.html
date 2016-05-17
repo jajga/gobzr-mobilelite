@@ -1,0 +1,46 @@
+<div class="container">
+<div class="row">
+	<div class="col-lg-6 col-md-6" ng-repeat="data in productOnTheBasisOfCategory">
+		<div >
+			<div id="produstlistingselectprod" class="catThmbCon" ng-if="data.gbucode.substr(0,1)!='F'">
+  <a href="{{hrefPdpUrl}}{{data.gbucode}}/{{data.productDetails.productname}}/pdp" ng-click="gtmProvider.productClick(data.gbucode+'/'+data.productDetails.productname+'/pdp',data.productDetails.title+' '+data.productDetails.subtitle,data.gbucode,data.salepriceperunit,data.productDetails.brandname,data.productDetails.categoryname)" id="productswhitelisting" style="text-decoration:none;">
+<div class="fashionlisting" ng-if="data.instock!=0 && data.salepriceperunit!=0"><img ng-src="{{imageProductListUrl}}/{{data.gbucode}}/{{data.productDetails.listingurl}}" class="img-responsive"/></div>
+<div class="fashionlisting product_fade" ng-if="data.instock<1 || data.salepriceperunit==0"><img err-src="{{noImageListing}}" bn-lazy-src="{{imageProductListUrl}}/{{data.gbucode}}/{{data.productDetails.listingurl}}" class="img-responsive"/></div>
+
+<p id="productsname" class="catProductName"><span ng-bind="data.productDetails.title"></span> <br> <span class="productsubtittle" ng-bind="data.productDetails.subtitle"></span>
+
+</p>
+<p></p>
+
+<div id="productsprice" class="productMainPrice" ng-if="data.salepriceperunit!=0"><span ng-bind="unitPrice"></span> <span ng-bind="data.salepriceperunit| currency:'' "></span></div>
+<div id="productsoldprice" class="oldDiscountPrice" ng-if="data.salepriceperunit!=0">
+  <strike class="discount_given_bg" ng-if="calculateDiscount(data.priceperunit,data.salepriceperunit) > 0">
+    <span ng-bind="unitPrice" class="discount_given_bg"></span>&nbsp;
+    <span class="discount_given_bg" ng-bind="data.priceperunit| currency:'' "></span>
+  </strike> 
+  <span class="disc_percent" ng-if="calculateDiscount(data.priceperunit,data.salepriceperunit) >= 1" >
+  (<span ng-bind="calculateDiscount(data.priceperunit,data.salepriceperunit)"></span>% Off)
+  </span>
+</div>
+
+
+
+
+<!-- <div id="productsprice" class="productMainPrice" ng-if="data.salepriceperunit==0">NA</div>
+<div id="productsoldprice" class="oldDiscountPrice" ng-if="data.salepriceperunit==0">NA</div> -->
+
+
+<ul id="productsdetails" class="shortDesCat">
+<li ng-repeat="value in keyfeature(data.productDetails.keyfeatures) | limitTo:5"><span ng-bind="value| limitTo:53"></span></li>
+</ul>
+</a>
+</div>
+
+</div>
+</div>
+
+<div id="showMore">
+	<button class="btn btn-primary" ng-click="moreProducts(pageNo,'price');">Show More</button>
+
+</div>
+</div>

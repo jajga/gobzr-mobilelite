@@ -22,7 +22,6 @@ angular
     $locationProvider.html5Mode({
      enabled: true
      }).hashPrefix('!');
-
     $urlRouterProvider.otherwise('/');
     
     $stateProvider
@@ -32,6 +31,7 @@ angular
             'header': {
               templateUrl: 'views/common/header.html',
               controller: 'HeaderCtrl'
+
             }
           },
           resolve:{
@@ -56,15 +56,17 @@ angular
           }
         })
         .state('gobazarlite.listing', {
-          url: '/mobile-listing',
+          url: '/listing?categoryName',
           views: {
             '@':{
-              templateUrl: 'views/pages/home.html',
-              controller: 'HomeCtrl'
+              templateUrl: 'views/pages/listing.html',
+              controller: 'FilterCtrl'
             }
           },
           resolve:{
             
           }
         });
+  }).run(function($rootScope){
+    $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
   });

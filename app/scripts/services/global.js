@@ -12,10 +12,12 @@ angular.module('gobzrliteApp')
     // Service logic
      var API_BUSS = "http://business.api.gobazaar.com/Business-Web/services/";
      var API_DOMAIN = "http://domain.api.gobazaar.com/Gobazaar_Webshop/services/";
+     var imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
     // Public API here
     return {
       API_BUSS:API_BUSS,
-      API_DOMAIN:API_DOMAIN
+      API_DOMAIN:API_DOMAIN,
+      imageProductListUrl:imageProductListUrl
      
     };
   });
