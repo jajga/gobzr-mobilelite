@@ -121,6 +121,7 @@ $scope.addToCartFromPdp = function(gbucode,priceperunit,productid,productstatus,
   productService.addToCartFromPdp(formData).success(function (results){
     if(results.responseCode=="SUCCESS" && results.entitiesResponse!=null){
       $scope.addCartItem= results.entitiesResponse['0']['baseDTO']['cartproductidList'];
+      window.location.href="/mycart";
       
     }
     else{

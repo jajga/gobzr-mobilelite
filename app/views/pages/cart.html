@@ -1,0 +1,100 @@
+<div class="container">
+<div class="row contaninertops">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+<div class="row">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<div class="mycarts">
+My Cart 
+<span ng-if="cartLength==1">({{cartLength}} product)</span>
+<span ng-if="cartLength>1">({{cartLength1}} products)</span>
+<span class="pull-right">
+<div class="yourinvoice">
+<!-- <a href="#"><b>VIEW YOUR INVOICE</b></a> --></div>
+</span>
+</div>
+</div>
+</div>
+
+<div class="row">
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnames"> Products </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnames"> DESCRIPTION </div>
+  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 productsnames"> QTY </div>
+  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 productsnames"> PRICE </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnames podsnames"> DELIVERY INFO </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnames podsnes"> SUB TOTAL </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnames">&nbsp;</div>
+</div>
+
+<div ng-repeat="product in cartItemSummary">
+<div class="row">
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+  <div class="imgs">
+  <a id="CrtPgLink" href="{{hrefPdpUrl}}{{product.gbuCode}}/{{product.productname}}/pdp">
+    <img  ng-src="{{myCartImages}}{{product.gbuCode}}/{{product.thumbnailurl}}"  alt="" />
+  </a>
+  </div>
+  </div>
+  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnamescontents products-name-scontents">
+  <p class="productsdescription"><b>DESCRIPTION</b></p>
+  <div class="cartdescription">
+  <p class="micromaxcontent">{{product.title}}</p>
+  <p class="micromaxcolor">{{product.subtitle}}</p>
+
+  <div class="instcks">
+  <button style="pointer-events: none;cursor: default;" type="button" class="btn btn-default instcks" ng-if="product.inStock > 0">IN STOCK</button>
+  <button style="pointer-events: none;cursor: default;" type="button" class="btn btn-default instcks" ng-if="product.inStock < 1">OUT OF STOCK</button>
+  </div>
+
+  </div>
+  </div>
+
+  <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12 products-description">
+<p class="productsqtys"><b>QTY</b></p>
+<!-- <div class="outOfStock" id="outOfStock{{product.gbuCode}}" style="padding:0 0 0 0;font-size:10px;color:red;display:none;"></div> -->
+<div class="cart_qtys">
+<div class="qtys">
+  <input class="form-control input-lgs" type="text" style="font-size:16px;" ng-if="product.inStock < 1" id="textInput{{product.gbuCode}}" ng-model="product.quantity"  min="1" maxlength="1" value="{{product.quantity}}"  ng-change="updateInput(product.quantity,product.gbuCode)" ng-blur="updateInput1(product.quantity,product.gbuCode)" disabled/>
+  <input class="form-control input-lgs" type="text" style="font-size:16px;" ng-if="product.inStock > 0" id="textInput{{product.gbuCode}}"  ng-model="product.quantity" min="1" maxlength="1" value="{{product.quantity}}" ng-change="updateInput(product.quantity,product.gbuCode)" ng-blur="updateInput1(product.quantity,product.gbuCode)"/>
+</div>
+<div class="qtyssave " ng-if="product.inStock > 0">
+
+  <!-- <a class="qtyssave diffsave" id="CrtPgSaveBtn" href="javascript:void(0)" ng-click="addToCart(product.gbuCode,product.mrp,product.productId,product.productstatus,product.salePrice,product.shippingCharge,product.vendorId,product.subtitle,product.thumbnailurl,product.productname,product.skuId,'','','','','','',product.lockedInventory)"> -->
+
+  Save<!-- </a> --></div>
+</div>
+</div>
+
+  <div class="col-lg-1 col-md-1 col-sm-2 col-xs-12 productsnamescontents products-ice">
+<p class="products-price"><b>Price</b></p>
+<p class="productspri">{{unitPrice}} {{product.salePrice}}</p>
+</div>
+
+<div class="col-lg-2 col-md-2 col-sm-1 col-xs-12 productsnamescontents devlivery-info devlitents">
+<p class="devliveryinfo"><b>DELIVERY INFO</b></p>
+<p class="devliveryinfocontents">{{unitPrice}} {{product.shippingCharge| currency:'' }}</p>
+</div>
+
+<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnamescontents subtsotal devliveryontents">
+<p class="devliveryinfo"><b>SUB TOTAL</b></p>
+<div class="devliveryinfocontents">
+<div class="subtotal">{{unitPrice}} <!-- {{product.salePrice+product.shippingCharge}} --> {{product.subTotal| currency:'' }}</div>
+<div class="subtotals">Savings: {{unitPrice}} {{product.discountApplied| currency:'' }}</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right block-place-order">
+<button type="button" class="btn btn-danger campaign" data-toggle="modal" ng-if="customerId==null" ng-click="redirctPath('mycart')" data-target="#login"  style="text-decoration:none;">PLACE ORDER</button>
+<button type="button" class="btn btn-danger campaign" ng-if="customerId!=null" style="text-decoration:none;" ng-click="createOrder(ItemPrice,totalOrderedItems,totalShippingCharge)">PLACE ORDER</button>
+<br><img id="imgLoaderCart" ng-src="{{imageUrl}}loadingPleaseWait.gif" style="display:none;" />
+<button class="btn btn-danger bts" style="margin-top:10px;" onclick="window.location='/';">CONTINUE SHOPPING</button>
+</div>
+
+</div>
+</div>
+</div>

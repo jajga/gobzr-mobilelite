@@ -110,10 +110,32 @@ angular
 
             }
           }
+        }).state('gobazarlite.cart', {
+          url: '/mycart',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/cart.html',
+              controller: 'CartCtrl'
+            }
+          },
+          resolve:{
+            getCartProducts: function(cartService,$cookies){
+              
+              var formData={
+                 "sessionId":$cookies.get('sessionId').toString()
+                 };  
+              return cartService.getCart(formData);
+
+
+            }
+            
+          }
         });
   }).run(function($rootScope,global,liveCategory,$stateParams,$cookies){
     $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
-    $rootScope.hrefPdpUrl='product-description/'
+    $rootScope.hrefPdpUrl='product-description/';
+    $rootScope.unitPrice='₹';
+    $rootScope.myCartImages="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/",
     //window.categoryStates={};
     liveCategory.getLiveCategory().success(function (results) {
       //window.categoryStates=results;
