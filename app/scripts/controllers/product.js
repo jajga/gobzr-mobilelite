@@ -8,17 +8,9 @@
  * Controller of the gobzrliteApp
  */
 angular.module('gobzrliteApp')
-  .controller('ProductCtrl', function (productService,$scope,$stateParams,$rootScope) {
-  	if(typeof($stateParams.GbuCode)!='undefined' && $stateParams.GbuCode!='' && typeof($stateParams.productName)!='undefined' && $stateParams.productName!='')
-  	{
-    var GbuCode = $stateParams.GbuCode;
-    var productName = $stateParams.productName;   
-    var formData={
-              "productname": productName,
-              "gbucode":GbuCode
-            };
-    console.log('gbu '+GbuCode+' pName '+productName+' formData ' +JSON.stringify(formData));
-    productService.getproductbyname(formData).success(function (results){
+  .controller('ProductCtrl', function (productService,$scope,$stateParams,$rootScope,$cookies,productByProductName) {
+    
+      var results=productByProductName['data'];
       if(results.responseCode=="SUCCESS"  && results.entitiesResponse!=null){  
           $scope.productDescriptionAttribute=results.entitiesResponse['0']['baseDTO']['attributes'];
           $scope.productDescription=results.entitiesResponse['0']['baseDTO']['attributes']['miscellaneous'];
@@ -28,8 +20,8 @@ angular.module('gobzrliteApp')
           $scope.inStock=results.entitiesResponse['0']['baseDTO']['attributes']['InStock'];
 
           if(results.entitiesResponse['0']['baseDTO']['availableVarientsDTO']!=undefined){
-	        $scope.availVariants=results.entitiesResponse['0']['baseDTO']['availableVarientsDTO'].gbuCodeVarientMapping;
-	        $rootScope.sizeAttr=results.entitiesResponse['0']['baseDTO']['availableVarientsDTO'].colorImageVarientMapping;
+          $scope.availVariants=results.entitiesResponse['0']['baseDTO']['availableVarientsDTO'].gbuCodeVarientMapping;
+          $rootScope.sizeAttr=results.entitiesResponse['0']['baseDTO']['availableVarientsDTO'].colorImageVarientMapping;
            }
            $scope.subTitle=$scope.productDescription.productname+'_'+$scope.productDescription.productname+'_'+$scope.productDescription.modelname;
            $scope.productDescriptionColor=results.entitiesResponse['0']['baseDTO']['attributes']['colorDetails'];   
@@ -41,9 +33,9 @@ angular.module('gobzrliteApp')
            $scope.finalVal=$scope.inStock.amount;
 
            $scope.instock1=[];
-		   $scope.instock2=[];
+       $scope.instock2=[];
 
-           productService.getproductbynameByVendor(GbuCode).success(function (results){
+           productService.getproductbynameByVendor($scope.productDescription.gbucode).success(function (results){
            if(results.responseCode=="SUCCESS" && results.entitiesResponse!=null) 
             {    
               $scope.vendorCodeData=results.entitiesResponse['0']['baseDTO']['vendorProductWrapper'];
@@ -75,26 +67,69 @@ angular.module('gobzrliteApp')
               }
             }
             else{
-      		console.log('Service Failure');
-      		}		
+          console.log('Service Failure');
+          }   
            }).error(function (e){
-    		console.log(e)
-    	  });
+        console.log(e)
+        });
 
       }else{
-      	console.log('Service Failure');
+        console.log('Service Failure');
       }
-    }).error(function (e){
-    	console.log(e)
-    });
-}
-$scope.addToCartFromPdp = function(gbucode,priceperunit,productid,productstatus,salepriceperunit,shippingcost,vendorId,subtitle,thumbnailurl,productname,vendorSku,brandname,modelname,categoryname,categoryId,title,fromwhere,lockedInventory){
-	productService.addToCartFromPdp(gbucode,priceperunit,productid,productstatus,salepriceperunit,shippingcost,vendorId,subtitle,thumbnailurl,productname,vendorSku,brandname,modelname,categoryname,categoryId,title,fromwhere,lockedInventory).success(function (results){
-	
+    
+$scope.addToCartFromPdp = function(gbucode,priceperunit,productid,productstatus,salepriceperunit,shippingcost,vendorId,subtitle,thumbnailurl,productname,vendorSku,brandname,modelname,categoryname,categoryId,title,fromwhere,lockedInventory)
+{
+
+    lockedInventory=0;
+    var finalShippingCost=shippingcost; 
+    var subTotal=parseFloat(salepriceperunit*1)+parseFloat(finalShippingCost);
+      var discountApplied=priceperunit-salepriceperunit;
+      var tax1= (salepriceperunit*14)/100;
+      var overAllTax=Math.ceil(tax1 * 100)/100;
+
+  var formData={
+      "cartproductidList": [
+                              {
+
+                                  "categoryid":categoryId,
+                                  "discountApplied": discountApplied, 
+                                  "subTotal":subTotal,
+                                  "gbuCode": gbucode,
+                                  "mrp": priceperunit,
+                                  "productId": productid,
+                                  "title": title,
+                                  "productStatus": productstatus,
+                                  "quantity": 1,
+                                  "salePrice": salepriceperunit,
+                                  "shippingCharge": finalShippingCost,
+                                  "vendorId": vendorId,
+                                  "subtitle":subtitle,
+                                  "thumbnailurl":thumbnailurl,
+                                  "productname":productname,
+                                  "skuId":vendorSku,
+                                  "vat":0,
+                                  "tax":overAllTax,
+                                  "brandname": brandname,
+                                  "categoryname": categoryname,
+                                  "modelname": modelname,
+                                  "lockedInventory":lockedInventory
+                              }
+                           ],
+                            "sessionId": $cookies.get('sessionId')
+
+                };
+  productService.addToCartFromPdp(formData).success(function (results){
+    if(results.responseCode=="SUCCESS" && results.entitiesResponse!=null){
+      $scope.addCartItem= results.entitiesResponse['0']['baseDTO']['cartproductidList'];
+      
+    }
+    else{
+      console.log('Service Failure');
+    }
+  
 
   }).error(function (e){
      console.log(e)
     });
 }
   });
-//end of if stateParams

@@ -93,7 +93,22 @@ angular
             }
           },
           resolve:{
-            
+            productByProductName: function(productService,$stateParams){
+             if(typeof($stateParams.GbuCode)!='undefined' && $stateParams.GbuCode!='' && typeof($stateParams.productName)!='undefined' && $stateParams.productName!='')
+            {
+              var GbuCode = $stateParams.GbuCode;
+              var productName = $stateParams.productName;   
+              var formData={
+                 "productname": productName,
+                 "gbucode":GbuCode
+                };
+              console.log('gbu '+GbuCode+' pName '+productName+' formData ' +JSON.stringify(formData));
+              
+              return productService.getproductbyname(formData);
+
+            };
+
+            }
           }
         });
   }).run(function($rootScope,global,liveCategory,$stateParams,$cookies){
