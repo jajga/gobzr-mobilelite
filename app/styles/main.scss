@@ -93,3 +93,16 @@ a.logo img {
     border-bottom: 0;
   }
 }
+
+
+.homeNavi > li{
+    width: 50%;
+  float: left;
+}
+.dropdown-menu.slideDown{
+  position: relative;
+}
+li.dropdown {
+  display: block;
+  clear: both;
+}
