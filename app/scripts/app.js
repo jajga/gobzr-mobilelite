@@ -209,10 +209,20 @@ angular
           },
           resolve:{
             getCartProducts: function(cartService,$cookies){
+              if($cookies.get('customerId'))
+                {
+                    var formData={
+                     "customerId":$cookies.get('customerId'),
+                     "sessionId":$cookies.get('sessionID').toString()
+                   }; 
+                }
+                else
+                {
+                    var formData={
+                    "sessionId":$cookies.get('sessionId').toString()
+                   };      
+                }
               
-              var formData={
-                 "sessionId":$cookies.get('sessionId').toString()
-                 };  
               return cartService.getCart(formData);
 
 
@@ -325,8 +335,6 @@ angular
 
    if($cookies.get('customerId')!=undefined)
       {  
-
-<<<<<<< HEAD
        if($cookies.get('firstName')!=undefined && $cookies.get('lastName')!=undefined) {
          $rootScope.customerName=$cookies.get('firstName')+" "+$cookies.get('lastName'); 
          $rootScope.customerFirstName=$cookies.get('firstName');
@@ -403,6 +411,18 @@ angular
         $rootScope.customerMobileNumber=null
 
       }
+    $rootScope.custId=$cookies.get('customerId');
+    if($cookies.get('useData')!=undefined && $cookies.get('useData')!='undefined'){
+      var userData=JSON.parse($cookies.get('useData'));
+      $rootScope.nameHeader='';
+      console.log(userData);
+      if(userData.firstName!='' && userData.firstName!=undefined && userData.firstName!='undefined'){
+        $rootScope.nameHeader=userData.firstName;
+      }
+      else{
+        $rootScope.nameHeader=userData.emailId;
+      }
+    }
 
   }).
   constant('errorMessage', {
@@ -424,24 +444,7 @@ angular
     internalServerError:'Data is not submitted due to some internal server error. Please contact admistrator.',
     resendVerifyCodeMsg1:"Verification code resend successfully",
     resendVerifyCodeMsg:"A verification code has been sent to your mobile, please check.",
-    resendVerifyCodeMsgFail:'Failure, Please try after sometime.',
-=======
-                 
-    })
-    $rootScope.custId=$cookies.get('customerId');
-    if($cookies.get('useData')!=undefined && $cookies.get('useData')!='undefined'){
-      var userData=JSON.parse($cookies.get('useData'));
-      $rootScope.nameHeader='';
-      console.log(userData);
-      if(userData.firstName!='' && userData.firstName!=undefined && userData.firstName!='undefined'){
-        $rootScope.nameHeader=userData.firstName;
-      }
-      else{
-        $rootScope.nameHeader=userData.emailId;
-      }
-    }
->>>>>>> ccbde5d5a18f025f0baec6217f5749960fc57577
-
+    resendVerifyCodeMsgFail:'Failure, Please try after sometime.'          
   }).
   constant( 'webSite', {
     mydomain:'/'
