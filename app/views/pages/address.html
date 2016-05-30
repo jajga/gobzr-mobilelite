@@ -1,0 +1,410 @@
+<section class="col-lg-12">
+<div><h3>Select Delivery Address <span class="glyphicon glyphicon-triangle-right"></span></h3></div>
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="deliverAddressOptions{{addressData.addressId}}" ng-repeat="addressData in addressDetail" ng-if="addressData.status=='ACTIVE' && removeDiv!=addressData.addressId">
+<div class="con_form_horizontal">
+<form class="form-horizontal" role="form">
+  <div id="deliveryMessage{{$index}}" class="devlivery"></div>
+<!-- <div class="form-group" id="deliveryMessage{{$index}}" style="display:none">
+    <label class="control-label col-lg-0 pymntslft" for="name1"></label>
+    <div class="col-lg-12 pymntslfts">
+     Delivery Not available at this address
+    </div>
+  </div> -->
+
+
+
+
+
+
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="name1">Name</label>
+    <div class="col-lg-8 pymntslfts">
+      <input type="text" class="form-control" placeholder="Enter Name" value="{{addressData.firstName}} {{addressData.lastName}}" id="inputEmail3" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="address1">Address</label>
+    <div class="col-lg-8 pymntslfts"> 
+      <textarea type="textarea" rows="3" class="form-control" id="address1" disabled placeholder="Enter Address">{{addressData.address}} {{addressData.pinCodeObj.city.cityName}} {{addressData.pinCodeObj.state.stateName}} {{addressData.pinCodeObj.country.countryName}} {{addressData.pinCodeObj.pincodeNumber}}</textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="mobile1">Mobile No.</label>
+    <div class="col-lg-8 pymntslfts">
+      <input type="mobile" class="form-control" id="inputPassword3" placeholder="Enter Mobile No." disabled value="{{addressData.mobileNo}}">
+    </div>
+  </div>
+  <div class="form-group"> 
+    <div class="col-lg-offset-4 col-lg-8 pymntslfts">
+      <button type="submit" class="btn btn-primary" ng-click="deliverHere(addressData,$index)">DELIVER HERE</button>
+    </div>
+  </div>
+  <div class="form-group">
+            <label for="inputPassword3" class="col-sm-4 control-label"> </label>
+            <div class="col-sm-8 pymntslfts">
+              <div class="radio"> <a href="javascript:void(0);" id="paymentdelete" data-toggle="modal" data-target="#areyousure{{addressData.addressId}}"><img ng-src="{{imageUrl}}delete.png" /></a>
+                <a id="paymentedit" href="javascript:void(0);" data-toggle="modal" data-target="#editaddress" ng-click="saveAddressDetail(addressData.addressId, addressData.pinCodeObj,addressData.landmark,addressData.firstName,addressData.lastName,addressData.address,addressData.mobileNo,addressData.pinCodeObj.city.cityName,addressData.pinCodeObj.state.stateName,addressData.pinCodeObj.country.countryname,addressData)"><img ng-src="{{imageUrl}}edit.png" /></a>  </div>
+            </div>
+          </div>
+</form>
+</div>
+
+ <section id="Login24" class="loginForm">
+  <div class="modal fade" id="areyousure{{addressData.addressId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog addtoCartPopup areyousure">
+      <div class="inventory-listing">
+<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true"><img ng-src="{{imageUrl}}closeIcon.png" class="img-responsive" /></span></button> 
+    <h4 class="modal-title" id="myLargeModalLabel">Are you sure, you want to delete?</h4> </div>
+    <br>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-8 areyousurebutton"> <a href="javascript:void(0);"><button type="button" class="btn btn-primary" ng-click="deleteAddress(addressData.addressId,'true')">Yes</button></a>
+        <a href="javascript:void(0);"><button type="button" class="btn btn-primary" ng-click="deleteAddress(addressData.addressId,'false')">No</button></a> </div>
+      </div>
+    </form>
+</div>
+    </div>
+  </div>
+</section>
+
+
+
+</div>
+<div class="col-lg-12 payment_addnew_address" ng-click="addNewDeliveryAddressReset()">
+<a href="javascript:void(0)" id="gobazaar_addnewaddress" data-toggle="modal" >
+      <button type="button" class="btn btn-danger">Add New Address</button>
+      </a>
+</div>
+
+
+<!-- add new address -->
+<div id="add-new-payment-address" style="display:none;">
+    <div class="addtoCartPopup addnewaddress addnewaddress23">
+      
+      <div class="inventory-listing">
+<div class="addr">
+      <h1>Add New Address</h1>
+    </div>
+    <br>
+    <form class="form-horizontal" role="addAddressform" class="form-horizontal" id="addAddressform" name="addAddressform" novalidate ng-submit="addAddressform.$valid && addAddressAtPayment(firstname,lastname,addressAdding,pincodeAdding,addlandMark,city,state,country,mobile,'shipping')">
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputEmail3" class="col-sm-3 control-label">First Name<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" name="firstname" id="firstname" ng-pattern="/^[a-zA-Z ]+$/" class="form-control" minlength="3" maxlength="50" ng-model="firstname" placeholder="First Name" required>
+            
+                <span class="requiredError validation" ng-show="addAddressform.firstname.$error.required || addAddressform.firstname.$error.minlength" ng-if="addAddressform.$submitted">
+                 <span ng-bind="requiredFirstName"></span>
+                </span>
+                <span class="requiredError validation" ng-show="addAddressform.firstname.$error.pattern" ng-if="addAddressform.$submitted">
+                 <span ng-bind="validFirstName"></span>
+                </span>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Last Name<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" name="lastname" id="lastname" ng-pattern="/^[a-zA-Z ]+$/" class="form-control" minlength="3" maxlength="50" ng-model="lastname" placeholder="Last Name" required>
+            
+              <span class="requiredError validation" ng-show="addAddressform.lastname.$error.required || addAddressform.lastname.$error.minlength" ng-if="addAddressform.$submitted">
+                 <span ng-bind="requiredLastName"></span>
+                </span>
+              <span class="requiredError validation" ng-show="addAddressform.lastname.$error.pattern" ng-if="addAddressform.$submitted">
+                <span ng-bind="validLastName"></span>
+             </span>
+        </div>
+      </div>
+       <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Address<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <textarea rows="4" name="address" id="address"  maxlength="100" class="form-control" id="address" ng-model="addressAdding" required></textarea>
+                <span class="maxChracter">
+                  <span ng-bind="100-addressAdding.length"></span><span> Characters Remaining of Maximum 100</span>
+                </span>
+
+                <span class="requiredError validation" ng-show="addAddressform.address.$error.required" ng-if="addAddressform.$submitted">
+                    <span ng-bind="requiredAddress"></span>
+                </span>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <input type="hidden" name="validPinShip" ng-model="validPinShip" required/>
+        <label for="inputPassword3" class="col-sm-3 control-label">Pin Code<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" name="pincode" id="pincode" ng-pattern="/^[0-9]\d{5}$/"  class="form-control" minlength="6" maxlength="6" ng-model="pincodeAdding" placeholder="Pin Code" ng-blur="verifyPinCodeAtCheckout(pincodeAdding,'add');" required>
+        
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressform.pincode.$error.required" ng-if="addAddressform.$submitted">
+                <span ng-bind="requiredPincode"></span>
+              </span>
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressform.pincode.$error.pattern" ng-if="addAddressform.$submitted">
+                 <span ng-bind="pincodeMinMax"></span>
+              </span>
+              <span id="verifyPincode" class="requiredError spaceErrorMinor validation" style="display:none;">
+                <span ng-bind="verifyPinCodeMsg"></span>
+              </span>
+              <span id="verifyPincodeDeliveryNotDeliveryA" class="requiredError spaceErrorMinor validation" style="display:none;">
+                <span>Delivery Not Available at this pincode</span>
+              </span>
+          </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Landmark</label>
+        <div class="col-sm-9">
+          <input type="text" name="addlandMark" id="addlandMark" maxlength="50" class="form-control" ng-model="addlandMark" placeholder="Land Mark">
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">City</label>
+        <div class="col-sm-9">
+          <input type="text" name="city" id="cityName" class="form-control" ng-model="city" placeholder="City Name" disabled>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">State</label>
+        <div class="col-sm-9">
+          <input type="text" name="state" id="stateName" class="form-control" ng-model="state" placeholder="State" disabled>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Country</label>
+        <div class="col-sm-9">
+          <input type="text" name="country" id="countryName" class="form-control" ng-model="country" placeholder="Country" disabled>
+        </div>
+      </div>
+       <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Mobile Number<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" minlength="10" maxlength="10" ng-pattern="/^\d{10}$/" class="form-control" ng-model="mobile" name="mobile" placeholder="Mobile number" required >
+        
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressform.mobile.$error.required" ng-if="addAddressform.$submitted">
+               <span ng-bind="requiredMobile"></span>
+              </span>
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressform.mobile.$error.pattern"  ng-if="addAddressform.$submitted">
+                <span ng-bind="validMobile"></span>
+              </span>
+            </div>
+      </div>
+      <div class="form-group addresscontext">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
+          <button type="submit" class="btn btn-primary" id="addAddressButton">Save & Continue</button>
+         </div>
+      </div>
+    </form>
+</div>
+    </div>
+  </div>
+
+</section>
+
+
+
+<!-- Billing -->
+<section class="col-lg-12" id="billAddress" style="display:none;">
+<div><h3>Select Billing Address <span class="glyphicon glyphicon-triangle-right"></span></h3></div>
+<div class="checkbox col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<label><input type="checkbox" name="gobazaardeliveryaddress" id="gobazaardeliveryaddress" ng-click="sameAsDeliveryAddress()"> SAME AS DELIVERY ADDRESS</label>
+</div>
+
+<!-- Same as delivery -->
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" ng-show="flagSameAsDelivery" style="background-color:#ececec;border-radius:4px;">
+<div class="con_form_horizontal">
+<form class="form-horizontal billdingfrom" role="form">
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="name1">Name</label>
+    <div class="col-lg-8 pymntslfts">
+      <input type="text" class="form-control" id="name1" placeholder="Enter Name" disabled value="{{deliverHereAddress.firstName}} {{deliverHereAddress.lastName}}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="address1">Address</label>
+    <div class="col-lg-8 pymntslfts"> 
+      <textarea type="textarea" rows="3" class="form-control" id="address1" disabled placeholder="Enter Address">{{deliverHereAddress.address}} {{deliverHereAddress.pinCodeObj.city.cityName}} {{deliverHereAddress.pinCodeObj.state.stateName}} {{deliverHereAddress.deliverHereAddress.country.countryName}} {{deliverHereAddress.pinCodeObj.pincodeNumber}}
+      </textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="mobile1">Mobile No.</label>
+    <div class="col-lg-8 pymntslfts">
+      <input type="mobile" class="form-control" id="mobile1" placeholder="Enter Mobile No." disabled value="{{deliverHereAddress.mobileNo}}">
+    </div>
+  </div>
+  <div class="form-group"> 
+    <div class="col-lg-offset-4 col-lg-8 pymntslfts">
+      <button type="submit" class="btn btn-primary" ng-click="saveBillingAddress(deliveryAddress)">CONTINUE</button>
+    </div>
+  </div>
+   
+  
+</form>
+</div>
+</div>
+
+
+
+<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" id="billingAddressOptions{{addressData.addressId}}" ng-repeat="addressData in addressDetail" ng-if="addressData.status=='ACTIVE' && removeDivBilling!=addressData.addressId" ng-hide="flagSameAsDelivery" >
+<div class="con_form_horizontal">
+<form class="form-horizontal billdingfrom" role="form">
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="name2">Name</label>
+    <div class="col-lg-8 pymntslfts">
+      <input type="text" class="form-control" id="name2" placeholder="Enter Name" value="{{addressData.firstName}} {{addressData.lastName}}"id="inputEmail3" disabled>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="address2">Address</label>
+    <div class="col-lg-8 pymntslfts"> 
+      <textarea type="textarea" rows="3" class="form-control" id="address2" disabled placeholder="Enter Address">{{addressData.address}} {{addressData.pinCodeObj.city.cityName}} {{addressData.pinCodeObj.state.stateName}} {{addressData.pinCodeObj.country.countryName}} {{addressData.pinCodeObj.pincodeNumber}}
+      </textarea>        
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="control-label col-lg-4 pymntslft" for="mobile2">Mobile No.</label>
+    <div class="col-lg-8 pymntslfts">
+      <input type="mobile" class="form-control" id="mobile2" placeholder="Enter Mobile No." disabled value="{{addressData.mobileNo}}">
+    </div>
+  </div>
+  <div class="form-group"> 
+    <div class="col-lg-offset-4 col-lg-8 pymntslfts">
+      <button type="submit" class="btn btn-primary" ng-click="saveBillingAddress(addressData)">CONTINUE</button>
+    </div>
+  </div>
+</form>
+
+<div class="col-lg-12 payment_addnew_address" ng-click="addNewBillingAddressReset()">
+<a href="javascript:void(0)" id="gobazaar_addnewaddress" data-toggle="modal" >
+      <button type="button" class="btn btn-danger">Add New Address</button>
+      </a>
+</div>
+</div>
+
+
+
+
+
+  <div id="add-new-billing-address" style="display:none;">
+
+
+    <div class="addtoCartPopup addnewaddress addnewaddress23 paymentaddnewaddress">
+     
+      <div class="inventory-listing">
+<div class="addr">
+      <h1>Add New Address</h1>
+    </div>
+    <br>
+    <form class="form-horizontal" role="addAddressBillingform" class="form-horizontal" id="addAddressBillingform" name="addAddressBillingform" novalidate ng-submit="addAddressBillingform.$valid && addAddressAtPayment(billingFirstname,billingLastname,biilingAddress,billingPincode,addbillinglandMark,cityBillingName,stateBillingName,countryBillingName,mobileBilling,'billing')" >
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputEmail3" class="col-sm-3 control-label">First Name<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" name="billingFirstname" id="billingFirstname" ng-pattern="/^[a-zA-Z ]+$/" class="form-control" minlength="3" maxlength="50" ng-model="billingFirstname" placeholder="First Name" required>
+                <span class="requiredError validation" ng-show="addAddressBillingform.billingFirstname.$error.required || addAddressBillingform.billingFirstname.$error.minlength" ng-if="addAddressBillingform.$submitted">
+                 <span ng-bind="requiredFirstName"></span>
+                </span>
+                <span class="requiredError validation" ng-show="addAddressBillingform.billingFirstname.$error.pattern" ng-if="addAddressBillingform.$submitted">
+                 <span ng-bind="validFirstName"></span>
+               </span> 
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Last Name<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" name="billingLastname" id="billingLastname" ng-pattern="/^[a-zA-Z ]+$/" class="form-control" ng-minlength="3" maxlength="50" ng-model="billingLastname" placeholder="Last Name" required>
+                
+                <span class="requiredError validation" ng-show="addAddressBillingform.billingLastname.$error.required || addAddressBillingform.billingLastname.$error.minlength" ng-if="addAddressBillingform.$submitted">
+                 <span ng-bind="requiredLastName"></span>
+                </span>
+              <span class="requiredError validation" ng-show="addAddressBillingform.billingLastname.$error.pattern" ng-if="addAddressBillingform.$submitted">
+               <span ng-bind="validLastName"></span>
+             </span>
+        </div>
+      </div>
+       <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Address<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <textarea rows="4" name="biilingAddress" id="biilingAddress"  maxlength="100" class="form-control" id="biilingAddress" ng-model="biilingAddress" required></textarea>
+                <span class="maxChracter">
+                  <span ng-bind="100-biilingAddress.length"></span><span> Characters Remaining of Maximum 100</span>
+                </span>
+                <span class="requiredError validation" ng-show="addAddressBillingform.biilingAddress.$error.required" ng-if="addAddressBillingform.$submitted">
+                    <span ng-bind="requiredAddress"></span>
+                </span>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <input type="hidden" name="validPinShip" ng-model="validPinShip" required/>
+        <label for="inputPassword3" class="col-sm-3 control-label">Pin Code<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" name="billingPincode" id="billingPincode" ng-pattern="/^[0-9]\d{5}$/"  class="form-control" ng-minlength="6" maxlength="6" ng-model="billingPincode" placeholder="Pin Code" ng-blur="verifyPinCodeAtCheckout(billingPincode,'add');" required>
+            
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressBillingform.billingPincode.$error.required" ng-if="addAddressBillingform.$submitted">
+                 <span ng-bind="requiredPincode"></span>
+              </span>
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressBillingform.billingPincode.$error.pattern" ng-if="addAddressBillingform.$submitted">
+                  <span ng-bind="pincodeMinMax"></span>
+              </span>
+              <span id="verifyPincodeBilling" class="requiredError spaceErrorMinor validation" style="display:none;">
+                 <span ng-bind="verifyPinCodeMsg"></span>
+              </span>
+              <span id="verifyPincodeDeliveryNotBillingA" class="requiredError spaceErrorMinor validation" style="display:none;">
+                <span>Billing Not Available at this pincode</span>
+              </span>
+              </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Landmark</label>
+        <div class="col-sm-9">
+          <input type="text" name="addbillinglandMark" maxlength="50" id="addbillinglandMark"  class="form-control"  placeholder="Land Mark">
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">City</label>
+        <div class="col-sm-9">
+          <input type="text" name="cityBillingName" id="cityBillingName" class="form-control"  ng-model="cityBillingName" placeholder="City Name" disabled>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">State</label>
+        <div class="col-sm-9">
+          <input type="text" name="stateBillingName" id="stateBillingName" class="form-control"  ng-model="stateBillingName" placeholder="State" disabled>
+        </div>
+      </div>
+      <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Country</label>
+        <div class="col-sm-9">
+          <input type="text" name="countryBillingName" id="countryBillingName"  class="form-control" ng-model="countryBillingName" placeholder="Country" disabled>
+        </div>
+      </div>
+       <div class="form-group addresscontext myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label">Mobile Number<font color="RED">*</font></label>
+        <div class="col-sm-9">
+          <input type="text" minlength="10" maxlength="10" ng-pattern="/^\d{10}$/" class="form-control" ng-model="mobileBilling" name="mobileBilling" placeholder="Mobile number" required >
+
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressBillingform.mobileBilling.$error.required" ng-if="addAddressBillingform.$submitted">
+                <span ng-bind="requiredMobile"></span>
+              </span>
+              <span class="requiredError spaceErrorMinor validation" ng-show="addAddressBillingform.mobileBilling.$error.pattern"  ng-if="addAddressBillingform.$submitted">
+                 <span ng-bind="validMobile"></span>
+              </span>
+              </div>
+      </div>
+      <div class="form-group addresscontext">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
+          <button type="submit" class="btn btn-primary" id="addAddressButton">Save & Continue</button>
+         </div>
+      </div>
+    </form>
+</div>
+    </div>
+ 
+
+
+  </div>
+
+
+
+
+</div>
+
+</section>
