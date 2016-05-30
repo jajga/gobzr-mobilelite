@@ -1,0 +1,136 @@
+<style type="text/css">
+.validation{ 
+  color: #ec2227;
+  font-size: 11px;
+  display: block;
+  font-weight:500;
+  text-align: left;
+  font-weight: 700;
+}
+</style>
+<div class="container">
+<div class="loginForm">Create a new account.</div>
+          <div class="inventory-listing">
+           <form class="form-horizontal"  ng-submit="registrationform.$valid && register();" id="registrationform" name="registrationform" novalidate> 
+           <div class="alert alert-danger" ng-if="serverError"><span ng-bind="internalServerError"></span></div>
+           <div class="alert alert-danger" id="invalidCustomerText" ng-if="invalidRegisterMsg1">{{msgTxt4}}</div>
+           <div class="alert alert-danger" id="invalidCustomerText" ng-if="invalidRegisterMsg2">{{msgTxt5}}</div>
+
+           <div class="form-group psswrd">
+           <label for="inputPassword" class="col-sm-0 control-label"></label>
+           <div class="col-sm-12">
+           <input type="email" name="email" ng-model="registerEmail"   placeholder="*Email address" class="form-control" id="registerEmail" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-])*\w[\w-]{0,66})\.([a-z]{1,3}(?:\.[a-z]{2})?)|([\w-]+(?:\.[\w-]+)*)@((?:[\w-])*\w[\w-]{0,66})\.([A-Z]{1,3}(?:\.[A-Z]{2})?)$/" required >
+           <span class="validation" id="emailErr"  data-ng-show="registrationform.email.$error.required" 
+              ng-if="registrationform.$submitted">
+               {{requiredEmail}}
+            </span>
+              <span class="validation" id="emailErr"  data-ng-show="registrationform.email.$dirty && registrationform.email.$invalid && registrationform.email.$error.email || registrationform.email.$error.pattern " ng-if="registrationform.$submitted">
+                {{invalidEmail}}
+            </span>
+
+           </div>
+           </div>
+           <div class="form-group psswrd">
+           <label for="inputPassword" class="col-sm-0 control-label"></label>
+           <div class="col-sm-12">
+            <input type="password" id="registerPassword" name="password"  class="form-control" ng-model="registerPassword" placeholder="*Password" ng-pattern="/^.*[^ ].*$/" minlength="8" maxlength="50" autocomplete="off" required />
+             <span class="validation" id="passErr"  data-ng-show="registrationform.password.$error.required" ng-if="registrationform.$submitted">
+                {{requiredPassword}}
+             </span>
+                
+             <span class="validation" id="passErr" data-ng-show="((registrationform.password.$error.minlength || registrationform.password.$error.maxlength) && registrationform.password.$dirty)" ng-if="registrationform.$submitted">
+                    {{passwordMinMax}}
+             </span>
+             <span class="validation" id="passErr" data-ng-show="(registrationform.password.$error.pattern && !registrationform.password.$error.minlength && !registrationform.password.$error.maxlength)" ng-if="registrationform.$submitted">
+                 {{validPasswordCharacter}}
+             </span>
+             
+           </div>
+           </div>
+           <div class="form-group psswrd">
+           <label for="inputPassword" class="col-sm-0 control-label"></label>
+           <div class="col-sm-12">
+           <input type="password" id="rePassword" name="rePassword"  class="form-control" ng-model="rePassword" placeholder="*Re-enter password"  minlength="8" maxlength="50" autocomplete="off" required password-match="registerPassword">
+           <span class="validation" id="repassErr"  data-ng-show="registrationform.rePassword.$invalid" ng-if="registrationform.$submitted">
+             {{matchConfirmPassword}}
+            </span> 
+           </div>
+           </div>
+           <div class="form-group psswrd">
+           <label for="inputPassword" class="col-sm-0 control-label"></label>
+           <div class="col-sm-12">
+           <input type="text" id="mobile" minlength="10" maxlength="10" ng-pattern="/^\d{10}$/" class="form-control" ng-model="registerMobile" name="mobile" placeholder="*Mobile number" required>
+           <span class="validation" id="mobileErr" data-ng-show="registrationform.mobile.$error.required || registrationform.mobile.$error.number" ng-if="registrationform.$submitted">
+            {{requiredMobile}}
+            </span>
+            <span class="validation" id="mobileErr" data-ng-show="((mobile.mobile.$error.minlength || mobile.mobile.$error.maxlength) && registrationform.mobile.$dirty) " ng-if="registrationform.$submitted">
+             {{mobileDigits}}
+            </span>
+            <span class="validation" id="mobileErr" data-ng-show="registrationform.mobile.$error.pattern  && (registrationform.mobile.$dirty || submitted)"  ng-if="registrationform.$submitted">
+             {{validMobile}}
+            </span>
+
+           </div>
+           </div>
+           <div class="form-group psswrd">
+           <label for="inputPassword" class="col-sm-0 control-label"></label>
+           <div class="col-sm-12">
+           <input type="text" name="firstname"  maxlength="50" ng-pattern="/^[a-zA-Z ]+$/" class="form-control"  ng-minlength="3" ng-model="firstname" placeholder="First name">
+          <span class="validation" data-ng-show=" registrationform.firstname.$error.minlength" ng-if="registrationform.$submitted">
+          {{requiredFirstName}}</span>
+          <span class="validation" data-ng-show="registrationform.firstname.$error.pattern" ng-if="registrationform.$submitted">
+           {{validFirstName}}</span>
+
+           </div>
+           </div>
+           <div class="form-group psswrd">
+           <label for="inputPassword" class="col-sm-0 control-label"></label>
+           <div class="col-sm-12">
+           <input type="text" name="lastname" maxlength="50" ng-pattern="/^[a-zA-Z ]+$/" class="form-control" ng-minlength="3" ng-model="lastname" placeholder="Last name">
+            <span class="validation" data-ng-show=" registrationform.lastname.$error.minlength" ng-if="registrationform.$submitted">
+          {{requiredLastName}}</span>
+          <span class="validation" data-ng-show="registrationform.lastname.$error.pattern" ng-if="registrationform.$submitted">
+           {{validLastName}}</span>
+
+
+           </div>
+           </div>
+           <div class="form-group psswrd" style="font-size:12px; font-weight:300; text-align:center; margin-top:-05px;">
+           <label style="font-weight:700;"><font color="RED">*</font>Gender</label>
+
+           <label style="font-weight:400;"><input style="width:10px; height:10px;" type="radio" id="GenderrdioBtn_1" name="gender" data-ng-model="registerGender" value="M" required> Male</label>
+           <label style="font-weight:400;"><input style="width:10px; height:10px;" type="radio" id="GenderrdioBtn_2" name="gender" data-ng-model="registerGender" value="F" required> Female</label>
+
+            <span class="validation terms selectgender" style="margin-left: 310px;" id="genderSelect" data-ng-show=" registrationform.gender.$error.required" ng-if="registrationform.$submitted">
+             {{requiredGender}}
+           </span>
+           </div>
+           <div class="checkbox" style="font-size: 12px; font-weight: 500; text-align: left; margin-top: -20px; margin-bottom: 10px;">
+           <label><input type="checkbox"  id="t_and_c" value="1" name="terms">  
+            <font color="RED">*</font>I have read and understood the <a href="/terms" ng-click="saveDetails()"><span style="color:#337ab7;">terms & conditions</span></a> and agree to it.</label>
+           <br>
+            <span id="termErr" style="color: red; display: none;">
+              {{acceptTerms}}
+            </span>
+           </div>
+          
+           <div style="text-align:center;">
+           <button type="submit" id="gobazaarcreatemyaccount" ng-click="showRegisterErr();" class="btn btn-primary">Create My Account</button></div>
+           <div class="row" id="rLoading" style="text-align:center;display:none;">
+             <span> <img data-ng-src="{{imageUrl}}loadingPleaseWait.gif" alt="loading"/></span> 
+            </div>
+           </form>
+           <!-- <br>
+
+           <hr class="orLine">
+ 
+           <div class="selectaddress">
+           <button id="loginfacebook" type="submit" class="btn btn-primary ng-scope" ng-controller="facebookLoginController" data-ng-click="facebookLogin();">Login with Facebook</button>
+           <button  id="loginggoogle" type="submit" class="btn btn-danger googleplus ng-scope" ng-controller="googleLoginController" data-ng-click="googleSignInButton();">Login with Google</button>
+           </div>
+           <br>
+           <br> -->
+         
+      </div>
+</div>
+
