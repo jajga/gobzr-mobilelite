@@ -1,0 +1,30 @@
+<div class="container">
+      <form class="form-signin" id="loginform" name="loginform" novalidate  ng-submit="loginform.$valid && userLogin(loginEmail);">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <div class="col-lg-6">
+        <label for="inputEmail">Email address</label>
+        <input type="email" id="email" name="email" ng-model="loginEmail" class="form-loginEmailcontrol" placeholder="Email address" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-])*\w[\w-]{0,66})\.([A-Za-z]{1,3}(?:\.[A-Za-z]{2})?)$/" required autofocus>
+
+        <span class="validation" data-ng-show="loginform.email.$error.required" ng-if="loginform.$submitted">Email required*</span>
+        <span class="validation" data-ng-show="loginform.email.$dirty && loginform.email.$invalid && loginform.email.$error.email || loginform.email.$error.pattern " ng-if="loginform.$submitted">Email is invalid</span>
+        </div>
+        <div class="col-lg-2"><label for="inputPassword">Password</label></div>
+        <div class="col-lg-4">
+        
+        <input class="form-control" id="password" autocomplete="off" type="password" class="form-control passClass" ng-model="loginPassword"  name="password" placeholder="*Password" ng-pattern="/^.*[^ ].*$/" minlength="8" maxlength="50"  required>
+      <span class="validation" id="reqErrPass" data-ng-show="loginform.password.$error.required " ng-if="loginform.$submitted">Password required</span>
+           <span class="validation" id="reqErrPass" data-ng-show="((loginform.password.$error.minlength || loginform.password.$error.maxlength) && loginform.password.$dirty) " ng-if="loginform.$submitted">
+            Minimum pwd length is more
+          </span>
+          <span class="validation" id="reqErrPass" data-ng-show="(loginform.password.$error.pattern && !loginform.password.$error.minlength && !loginform.password.$error.maxlength)" ng-if="loginform.$submitted">Invalid pwd</span>
+           
+
+        </div>
+        <br />
+        
+        
+        <button class="col-lg-2 btn btn-primary" type="submit">Sign in</button>
+        <br />
+        <a href="/forgotPwd"> Forgot Password </a>
+      </form>
+</div>

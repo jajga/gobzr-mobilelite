@@ -1,0 +1,36 @@
+<div class="col-lg-12" style="padding:0;" id="forgetDiv">
+        <form class="form-signin" id="forgotPasswordForm" name="forgotPasswordForm" method="POST" ng-submit="forgotPasswordForm.$valid && forgotpassword();" novalidate>
+          <div id="forgetPassBlock" class="collapse in">
+          <hr>
+          <h5>Forgot Password?</h5><br>
+          <div id="forgotAlert" class="alert alert-danger ng-binding ng-scope" ng-if="invalideUser1" style="display:none"></div><!-- end ngIf: invalideUser1 --> 
+         
+<div class="col-lg-12 submitRow" style="padding:0;">
+<!--  <input type="hidden" name="email" id="forgotEmailField" ng-model="email" required/> --> 
+<input type="text" id="emailforget"  ng-model="forgotloginEmail" class="form-control" name="email" placeholder="*Email Address" ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-])*\w[\w-]{0,66})\.([a-z]{1,3}(?:\.[a-z]{2})?)$/" required>
+<span class="validation" data-ng-show="forgotPasswordForm.email.$error.required" ng-if="forgotPasswordForm.$submitted">{{requiredEmail}}</span>
+<span class="validation" data-ng-show="forgotPasswordForm.email.$dirty && forgotPasswordForm.email.$invalid && forgotPasswordForm.email.$error.email || forgotPasswordForm.email.$error.pattern " ng-if="forgotPasswordForm.$submitted">{{invalidEmail}}</span><br>
+
+<div class="col-lg-12 col-sm-12 col-sm-12 col-xs-12 rstes">
+  <div class="rstesCenter">
+<button class="btn btn-primary btn-primary subBut resets" id="btn-forgotPassword"  type="submit"> RESET PASSWORD </button> 
+<a style="color:red !important;float:left;" id="closeDivForgetPass" href="javascript:void(0)">
+<button class="btn btn-primary btn-primary subBut" id="btn-forgotPassword"  type="button">CANCEL</button></a> 
+</div>
+</div>
+</div>
+              <div class="row" id="forgotLoading" style="display:none;">
+                   <span> <img data-ng-src="{{imageUrl}}loadingPleaseWait.gif"  alt="loading"></span> 
+              </div>
+              
+              <div id="confMsg" style="display:none;color:#006400;">
+              <span class="glyphicon glyphicon-ok"></span> <span ng-bind="succesMsg"></span>
+              </div>
+
+              <div id="failMsg" style="display:none;color:#ec2227">
+              <span class="glyphicon glyphicon-remove"></span> <span ng-bind="failureMsg"></span>
+              </div>
+              
+          </div>
+        </form>
+    </div>  

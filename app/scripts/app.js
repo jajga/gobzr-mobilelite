@@ -16,7 +16,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.router'
+    'ui.router',
+    'angular-md5',
+    'ngStorage'
   ])
   .config(function ($routeProvider ,$urlRouterProvider,$stateProvider,$locationProvider) {
     $locationProvider.html5Mode({
@@ -54,6 +56,66 @@ angular
           resolve:{
             
           }
+        }).state('gobazarlite.login', {
+          url: '/login',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/login.html',
+              controller: 'LoginCtrl'
+            }
+          },
+          resolve:{
+            creteSession:function(user,$cookies){
+              if(!$cookies.get('sessionId')){
+                return user.getSessionId();
+              }  
+            }
+            ,
+            "check":function($location,loginService,$cookies){ 
+               
+                //alert($cookies.get('customerId'))
+                if($cookies.get('customerId'))
+                {
+                    
+                    $location.path('/');
+                }
+                else
+                {
+                 
+                    $location.path('/login');    
+                }
+          }
+        }
+        }).state('gobazarlite.forgot', {
+          url: '/forgotPwd',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/forgotPwd.html',
+              controller: 'LoginCtrl'
+            }
+          },
+          resolve:{
+            creteSession:function(user,$cookies){
+              if(!$cookies.get('sessionId')){
+                return user.getSessionId();
+              }  
+            }
+            ,
+            "check":function($location,loginService,$cookies){ 
+               
+                //alert($cookies.get('customerId'))
+                if($cookies.get('customerId'))
+                {
+                    
+                    $location.path('/');
+                }
+                else
+                {
+                 
+                    $location.path('/forgotPwd');    
+                }
+          }
+        }
         })
         .state('gobazarlite.listing', {
           url: '/:categoryName-listing/lst',
@@ -106,6 +168,9 @@ angular
                         
                       
           }
+
+
+
         }
         })
         .state('gobazarlite.product', {
@@ -188,7 +253,21 @@ angular
             }
           },
           resolve:{
-            
+
+          } 
+        }).state('gobazarlite.address', {
+          url: '/address',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/address.html',
+              controller: 'AddressCtrl'
+            }
+          },
+          resolve:{
+            getAddress: function(addressService,$cookies){
+              
+              return addressService.getAddress();
+              }
           }
         });
   }).run(function($rootScope,global,liveCategory,$stateParams,$cookies,errorMessage,webSite){
@@ -247,6 +326,7 @@ angular
    if($cookies.get('customerId')!=undefined)
       {  
 
+<<<<<<< HEAD
        if($cookies.get('firstName')!=undefined && $cookies.get('lastName')!=undefined) {
          $rootScope.customerName=$cookies.get('firstName')+" "+$cookies.get('lastName'); 
          $rootScope.customerFirstName=$cookies.get('firstName');
@@ -345,6 +425,22 @@ angular
     resendVerifyCodeMsg1:"Verification code resend successfully",
     resendVerifyCodeMsg:"A verification code has been sent to your mobile, please check.",
     resendVerifyCodeMsgFail:'Failure, Please try after sometime.',
+=======
+                 
+    })
+    $rootScope.custId=$cookies.get('customerId');
+    if($cookies.get('useData')!=undefined && $cookies.get('useData')!='undefined'){
+      var userData=JSON.parse($cookies.get('useData'));
+      $rootScope.nameHeader='';
+      console.log(userData);
+      if(userData.firstName!='' && userData.firstName!=undefined && userData.firstName!='undefined'){
+        $rootScope.nameHeader=userData.firstName;
+      }
+      else{
+        $rootScope.nameHeader=userData.emailId;
+      }
+    }
+>>>>>>> ccbde5d5a18f025f0baec6217f5749960fc57577
 
   }).
   constant( 'webSite', {
