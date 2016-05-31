@@ -72,14 +72,14 @@ My Cart
 
 <div class="col-lg-2 col-md-2 col-sm-1 col-xs-12 productsnamescontents devlivery-info devlitents">
 <p class="devliveryinfo"><b>DELIVERY INFO</b></p>
-<p class="devliveryinfocontents">{{unitPrice}} {{product.shippingCharge| currency:'' }}</p>
+<p class="devliveryinfocontents">{{unitPrice}} {{product.shippingCharge| noFractionCurrency}}</p>
 </div>
 
 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 productsnamescontents subtsotal devliveryontents">
 <p class="devliveryinfo"><b>SUB TOTAL</b></p>
 <div class="devliveryinfocontents">
-<div class="subtotal">{{unitPrice}} <!-- {{product.salePrice+product.shippingCharge}} --> {{product.subTotal| currency:'' }}</div>
-<div class="subtotals">Savings: {{unitPrice}} {{product.discountApplied| currency:'' }}</div>
+<div class="subtotal">{{unitPrice}} <!-- {{product.salePrice+product.shippingCharge}} --> {{product.subTotal| noFractionCurrency}}</div>
+<div class="subtotals">Savings: {{unitPrice}} {{product.discountApplied| noFractionCurrency}}</div>
 </div>
 </div>
 

@@ -55,9 +55,7 @@ angular
               controller: 'HomeCtrl'
             }
           },
-          resolve:{
-            
-          }
+          resolve:{}
         }).state('gobazarlite.login', {
           url: '/login',
           views: {
@@ -210,17 +208,76 @@ angular
             }
           },
           resolve:{
+            /*"check":function($location,$cookies,$state,$timeout){ 
+                if($cookies.get('customerId'))
+                {
+                    //$state.go('gobazarlite.cart'); 
+                    
+                }
+                else
+                {
+               
+                    $timeout(function(){
+                      $state.go('gobazarlite.home');
+                    },1000);
+                    
+                }
+             },*/
             getCartProducts: function(cartService,$cookies){
+             console.log($cookies.get('customerId'));
+             if($cookies.get('customerId'))
+                {
+                    var formData={
+                     "customerId":$cookies.get('customerId'),
+                     "sessionId":$cookies.get('sessionId').toString()
+                   }; 
+                }
+                else
+                {
+                    var formData={
+                    "sessionId":$cookies.get('sessionId').toString()
+                   };      
+                }
               
-              var formData={
-                 "sessionId":$cookies.get('sessionId').toString()
-                 };  
               return cartService.getCart(formData);
-
-
             }
+          }
+        })
+        .state('gobazarlite.register', {
+          url: '/signUp',
+          views: {
+            '@':{
+              templateUrl: 'views/common/register.html',
+              controller: 'RegisterCtrl'
+            }
+          },
+          resolve:{
             
           }
+        })
+        .state('gobazarlite.termsCondition', {
+          url: '/terms',
+          views: {
+            '@':{
+              templateUrl: 'views/common/terms.html',
+              controller: 'RegisterCtrl'
+            }
+          },
+          resolve:{
+            
+          }
+        })
+        .state('gobazarlite.verifyCustomer', {
+          url: '/verify',
+          views: {
+            '@':{
+              templateUrl: 'views/common/verifyCustomer.html',
+              controller: 'RegisterCtrl'
+            }
+          },
+          resolve:{
+
+          } 
         }).state('gobazarlite.address', {
           url: '/address',
           views: {
@@ -258,11 +315,12 @@ angular
             
           }
         });
-  }).run(function($rootScope,global,liveCategory,$stateParams,$cookies){
-    $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
+  }).run(function($rootScope,global,liveCategory,$stateParams,$cookies,errorMessage,webSite){
+    $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/";
     $rootScope.hrefPdpUrl='product-description/';
     $rootScope.unitPrice='₹';
-    $rootScope.myCartImages="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/",
+    $rootScope.myCartImages="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/";
+    $rootScope.imageUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/img/" : "http://" + "static.gobazaar.com/img/";
     //window.categoryStates={};
     liveCategory.getLiveCategory().success(function (results) {
       //window.categoryStates=results;
@@ -287,16 +345,115 @@ angular
                               
                               $rootScope.categoryIdListName=cName1;
                               
-                  }
+              }                 
+          })
+   $rootScope.requiredEmail=errorMessage.requiredEmail;
+   $rootScope.invalidEmail=errorMessage.invalidEmail;
+   $rootScope.requiredPassword=errorMessage.requiredPassword;
+   $rootScope.validPasswordCharacter=errorMessage.validPasswordCharacter;
+   $rootScope.passwordMinMax=errorMessage.passwordMinMax;
+   $rootScope.matchConfirmPassword=errorMessage.matchConfirmPassword;
+   $rootScope.requiredFirstName=errorMessage.requiredFirstName;
+   $rootScope.validFirstName=errorMessage.validFirstName;
+   $rootScope.requiredLastName=errorMessage.requiredLastName;
+   $rootScope.validLastName=errorMessage.validLastName;
+   $rootScope.requiredMobile=errorMessage.requiredMobile;
+   $rootScope.mobileDigits=errorMessage.mobileDigits;
+   $rootScope.validMobile=errorMessage.validMobile;
+   $rootScope.requiredGender=errorMessage.requiredGender;
+   $rootScope.acceptTerms=errorMessage.acceptTerms;
+   $rootScope.internalServerError=errorMessage.internalServerError;
+   $rootScope.mydomain=webSite.mydomain;
+   $rootScope.resendVerifyCodeMsg=errorMessage.resendVerifyCodeMsg;
+   $rootScope.resendVerifyCodeMsg1=errorMessage.resendVerifyCodeMsg1;
+   $rootScope.resendVerifyCodeMsgFail=errorMessage.resendVerifyCodeMsgFail;
 
+   if($cookies.get('customerId')!=undefined)
+      {  
+       if($cookies.get('firstName')!=undefined && $cookies.get('lastName')!=undefined) {
+         $rootScope.customerName=$cookies.get('firstName')+" "+$cookies.get('lastName'); 
+         $rootScope.customerFirstName=$cookies.get('firstName');
+         $rootScope.customerLastName=$cookies.get('lastName');
+       }
 
                  
-    })
+    }
+    
+       if($cookies.get('alternateMobileNumber')!=undefined) {
+        $rootScope.customerAlternateMobileNumber=$cookies.get('alternateMobileNumber');
+       } else {
+        $rootScope.customerAlternateMobileNumber=null
+       }
+
+
+       if($cookies.get('dateOfBirth')!=undefined) {
+        $rootScope.customerDob=$cookies.get('dateOfBirth');
+       } else {
+        $rootScope.customerDob=null
+       }
+
+
+       if($cookies.get('anniverseryDate')!=undefined) {
+        $rootScope.customerAnniverseryDate=$cookies.get('anniverseryDate');
+       } else {
+        $rootScope.customerAnniverseryDate=null
+       }
+
+
+       if($cookies.get('strDateOfBirth')!=undefined) {
+        $rootScope.customerStrDateOfBirth=$cookies.get('strDateOfBirth');
+       } else {
+        $rootScope.customerStrDateOfBirth=null
+       }
+
+       if($cookies.get('strAnniverseryDate')!=undefined) {
+        $rootScope.customerStrAnniverseryDate=$cookies.get('strAnniverseryDate');
+       } else {
+        $rootScope.customerStrAnniverseryDate=null
+       }
+
+       if($cookies.get('maritalStatus')!=undefined) {
+        $rootScope.customerMaritalStatus=$cookies.get('maritalStatus');
+       } else {
+        $rootScope.customerMaritalStatus=null
+       }
+
+       if($cookies.get('imageName')!=undefined) {
+        $rootScope.customerImageName=$cookies.get('imageName');
+       } else {
+        $rootScope.customerImageName=null
+       }
+
+       if($cookies.get('flag')!=undefined) {
+        $rootScope.customerFlag=$cookies.get('flag');
+       } else {
+        $rootScope.customerFlag=null
+       }
+       
+       $rootScope.customerEmail=$cookies.get('emailId');
+       $rootScope.customerId=$cookies.get('customerId');
+       if($cookies.get('mobileNumber')!=undefined) {
+          $rootScope.customerMobileNumber=$cookies.get('mobileNumber');
+       }
+       if($cookies.get('gender')!=undefined) {
+          $rootScope.customerGender=$cookies.get('gender');
+       }
+       
+       
+      } else {
+       
+        $rootScope.customerId=null
+        $rootScope.customerEmail=null
+        $rootScope.customerFirstName=null
+        $rootScope.customerLastName=null
+        $rootScope.customerMobileNumber=null
+
+      }
     $rootScope.customerId=$cookies.get('customerId');
+
     if($cookies.get('useData')!=undefined && $cookies.get('useData')!='undefined'){
       var userData=JSON.parse($cookies.get('useData'));
       $rootScope.nameHeader='';
-      console.log(userData);
       if(userData.firstName!='' && userData.firstName!=undefined && userData.firstName!='undefined'){
         $rootScope.nameHeader=userData.firstName;
       }
@@ -305,6 +462,30 @@ angular
       }
     }
 
+  }).
+  constant('errorMessage', {
+    requiredEmail:' Please enter your email address.',
+    invalidEmail:' Invalid email address.',
+    requiredPassword:'Please enter password.',
+    validPasswordCharacter:'Please enter valid password.',
+    passwordMinMax:'Password must have a minimum of 8 characters.',
+    matchConfirmPassword:"Confirm password does not match with new password.",
+    requiredFirstName:'Please enter valid first name with min 3 characters.',
+    validFirstName:'Only characters allowed in first name.',
+    requiredLastName:'Please enter valid Last name with min 3 characters.',
+    validLastName:'Only characters allowed in last name.',
+    requiredMobile:'Please enter mobile number.',
+    mobileDigits:'Mobile number should be 10 digits.',
+    validMobile:'Enter a valid mobile No.',
+    requiredGender:'Please select Gender.',
+    acceptTerms:'Please accept terms and conditions.',
+    internalServerError:'Data is not submitted due to some internal server error. Please contact admistrator.',
+    resendVerifyCodeMsg1:"Verification code resend successfully",
+    resendVerifyCodeMsg:"A verification code has been sent to your mobile, please check.",
+    resendVerifyCodeMsgFail:'Failure, Please try after sometime.'          
+  }).
+  constant( 'webSite', {
+    mydomain:'/'
   });
 function getCategoryId(categoryName,cookieData)
                  {

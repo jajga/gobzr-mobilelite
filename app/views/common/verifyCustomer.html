@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="alert alert-danger" ng-if="serverError"><span ng-bind="internalServerError"></span></div>
+  <div class="registerons">Verify New Account</div>
+  <div class="checkbox">
+    <label>
+     <span class="glyphicon glyphicon-ok"></span>
+     <span ng-bind="resendVerifyCodeMsg1" id="resendVerifyCodeSuccessMsg" style="display:none;"></span>
+     <span ng-bind="resendVerifyCodeMsg" id="resendVerifyCodeSuccessMsg1" ></span>
+    </label>
+
+    <label>
+     <span ng-bind="resendVerifyCodeMsgFail" id="resendVerifyCodeFailMsg" style="display:none;color:#ec2227"></span>
+    </label>
+  </div>
+   <div class="inventory-listing">
+	  <form class="form-horizontal" ng-submit="verifyform.$valid && verifyCustomer();" id="verifyform" name="verifyform" novalidate>
+	   <div class="form-group">
+	   <label for="inputPassword" class="col-sm-0 control-label"></label>
+	   <div class="col-sm-12">
+	   <input type="text" placeholder="Email address" class="form-control" name="email" id="emailverification" ng-model="email" disabled>
+	   </div>
+	   </div>
+
+        <div class="form-group psswrd">
+          <label for="inputPassword" class="col-sm-0 control-label"></label>
+          <div class="col-sm-12">
+           
+          <div class="">
+           <div class="gobazaarSearch col-xs-12" style="margin:0px; width:100%;">
+            <div class="form-group gobazaarSearchBoxCon">
+             <input type="text" placeholder="*Enter Verification code" class="gobazaarSearchBox form-control" name="verifycustomer" id="verifycustomer" ng-model="verifycustomer" required maxlength="6" autocomplete="off" numbers-only="numbers-only"/><br>
+              <button type="button" class="gobazaarSearchBtn btn btn-primary" id="resend_but" style="right:0%;" data-ng-click="resendVerifyCode();">Resend?</button>
+            </div>
+              <span class="validation" data-ng-show="verifyform.verifycustomer.$error.required" ng-if="verifyform.$submitted">
+                  <span ng-bind="verificationCode"></span>
+              </span>
+              <span class="validation" id="otpValid"></span>
+           </div>
+          </div>
+ 
+          </div>
+        </div>
+           <button type="submit" id="create_my_acc1" class="btn btn-primary">Verify Account</button>
+            <div id="waitVerify" style="margin-top:5px;display:none;"><img ng-src="{{imageUrl}}loadingPleaseWait.gif"></div>
+           </form>
+      </div>
+</div>
