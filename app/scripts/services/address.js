@@ -22,7 +22,7 @@ angular.module('gobzrliteApp')
 
 
     this.addDeliveryAddress=function(formdata){
-    	var promise=$http.post(global.API_BUSS+'customer/getPincodeData',formdata);
+    	var promise=$http.post(global.API_BUSS+'customer/addAddress',formdata);
     	return promise;
     
 	}
