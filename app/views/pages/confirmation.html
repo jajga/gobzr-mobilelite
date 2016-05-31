@@ -1,0 +1,125 @@
+
+<div class="row contaninertops">
+<div class="col-lg-6 col-sm-12 col-md-12 col-xs-12">
+ 
+ <div class="thanks_you_block" id="faliurePage" data-createdBy="{{orderConfirmationData.createdBy}}">
+ <div class="crosesrightpics"><img ng-src="{{imageUrl}}cross.png" width="15" height="16" /></div>
+ <h2 style="color:red;">Sorry Your Transaction was unsuccessfull.</h2>
+ <div class="clearfix"></div>
+ <!-- <p class="transactioncontents">YOUR ORDER NO: <b>:{{orderConfirmationData.orderId}}</b></p>
+ <p class="transactioncontents">Order Placed on:<span ng-bind="orderConfirmationData.createdDate | date:'medium'"></span></p> -->
+ <p style="style=float:left;"><a href="/payment" ><button type="submit" class="btn btn-primary">Re-payment</button></a></p>
+ </div>
+
+
+<div class="thanks_you_block" id="thankYouPage">
+<div class="rightpics"> <img ng-src="{{imageUrl}}thanku-page3.jpg" width="36" height="36" /></div>
+ <h2>THANK YOU FOR YOUR ORDER</h2>
+ <div class="clearfix"></div>
+ <p>You will get confirmation email and SMS shortly</p>
+ <p>You can also view the information under <a href="/myOrder"><span class="murder">"My Orders"</span></a></p>
+ </div>
+  </div>
+  </div>
+
+  <div class="row" id="transactionP">
+  <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+  <p id="suc"><span class="urorder">YOUR ORDER NO. : </span>&nbsp;&nbsp;<b><span ng-bind="orderConfirmationData.orderId"></span></b></p>
+  <p id="fal"><span class="urorder">YOUR ORDER NO. : </span>&nbsp;&nbsp;<b><span id="orderIdFail"></span></b></p>
+  <p id="fal2"><span class="urorder transactionTitle">YOUR TRANSACTION NO. : </span>&nbsp;&nbsp;<b><span class="pgTrNumber"></span></b></p>
+  <p id="suc1"><span class="urorder">ORDER PLACED ON : </span>&nbsp;&nbsp;<b><span ng-bind="orderConfirmationData.createdDate | date:'medium'"></span></b></p>
+  <p id="fal1"><span class="urorder">ORDER PLACED ON : </span>&nbsp;&nbsp;<b><span id="date1"></span></b></p>
+
+  </div>
+  </div>
+
+ 
+  <div class="row" id="orderConfirmation">
+  <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12 thankyoutable">
+  <div class="table-responsive">
+ <table class="table table-bordered">
+ <thead>
+ <tr class="customer_information"> 
+ <th scope="row"><div class="customers">S.NO.</div></th>  
+ <th scope="row"><div class="customers">PRODUCT NAME</div></th>  
+ <th scope="row"><div class="customers">PRODUCT CODE</div></th>  
+<!--  <th scope="row"><div class="customers">STATUS</div></th>  --> 
+ <th scope="row"><div class="customers">UNIT PRICE</div></th>  
+ <th scope="row"><div class="customers">QTY</div></th>  
+ <th scope="row"><div class="customers">PRICE</div></th>  
+ <th scope="row"><div class="customers">DELIVERY CHARGES</div></th>  
+ <th scope="row"><div class="customers">AMOUNT</div></th> 
+ </tr>
+ </thead> 
+ <tbody> 
+ <tr ng-repeat="orderlineval in orderConfirmationData.orderLine | orderBy:'orderLineId':false"> 
+      <td><span class="orderplaced" ng-bind="$index+1"></span></td>  
+      <td>
+      <div><div class="orderplaxxced"> <span class="orderplaxxced" ng-bind="orderlineval.title"></span></div></div>
+      <div><span class="orderplaced" ng-bind="orderlineval.subTitle"></span></div></td>    
+      <td><span class="orderplaced" ng-bind="orderlineval.gbuCode"></span></td>   
+      <!-- <td><span class="orderplaced" ng-bind="orderlineval.status"></span></td>   -->  
+      <td><span class="orderplaced"><span ng-bind="unitPrice"></span><span ng-bind="orderlineval.salePrice"></span></span></td>   
+      <td><span class="orderplaced" ng-bind="orderlineval.quantity"></span></td>    
+      <td><span class="orderplaced"><span ng-bind="unitPrice"></span><span ng-bind="orderlineval.salePrice * orderlineval.quantity"></span></span></td>   
+      <td><span class="orderplaced"><span ng-bind="unitPrice"></span><span ng-bind="orderlineval.shippingCharges"></span></span></td>   
+      <td><span class="orderplaced"><span ng-bind="unitPrice"></span><span ng-bind="orderlineval.salePrice * orderlineval.quantity"></span></span></td>  
+     </tr>
+    
+
+  </tbody> 
+<tfoot> 
+ <tr> 
+      <td colspan="3">
+      <div class="customer_information">
+      <div class="customers">CUSTOMER INFORMATION</div>
+       {{orderConfirmationData.orderLine[0].shippingAddressId.firstName}} {{orderConfirmationData.orderLine[0].shippingAddressId.lastName}}<br/>
+       Email:<span id="customerOrderEmail"></span><br/>
+       Mobile:<span id="customerOrderPhone"></span><br/>
+       </div>
+      </td>  
+      <td colspan="3" style="width:28%">
+      <div class="billing_information">
+      <div class="customers">BILLING INFORMATION</div>
+      {{orderConfirmationData.orderAddressId.firstName}} {{orderConfirmationData.orderAddressId.lastName}}<br/>
+     {{orderConfirmationData.orderAddressId.address}},
+     {{orderConfirmationData.orderAddressId.landmark}}<br/>
+       {{orderConfirmationData.orderAddressId.pinCodeObj.city.cityName}} - {{orderConfirmationData.orderAddressId.pinCodeObj.pincodeNumber}}<br/>
+       {{orderConfirmationData.orderAddressId.pinCodeObj.state.stateName}}<br/>
+       Mobile Number:{{orderConfirmationData.orderAddressId.mobileNo}}
+       </div>
+       <div class="shipping_information">
+       <div class="customers">SHIPPING INFORMATION</div> 
+        {{orderConfirmationData.orderLine[0].shippingAddressId.firstName}} {{orderConfirmationData.orderLine[0].shippingAddressId.lastName}}<br/>
+        {{orderConfirmationData.orderLine[0].shippingAddressId.address}},
+        {{orderConfirmationData.orderLine[0].shippingAddressId.landmark}}<br/>
+       {{orderConfirmationData.orderLine[0].shippingAddressId.pinCodeObj.city.cityName}} - {{orderConfirmationData.orderLine[0].shippingAddressId.pinCodeObj.pincodeNumber}}<br/>
+       {{orderConfirmationData.orderLine[0].shippingAddressId.pinCodeObj.state.stateName}}<br/>
+       Mobile Number:{{orderConfirmationData.orderLine[0].shippingAddressId.mobileNo}}
+       </div>
+      </td>   
+      <td colspan="3" style="width:28%">
+      <div class="total_amount">
+      <div class="left" style="width:50%;float:left;">
+      <p class="placeolderprice">TOTAL AMOUNT:</p>
+      <p class="placeolderprice">DELIVERY CHARGES:</p>
+      <p class="placeolderprice">OFFER DISCOUNT:</p>
+      <p class="placeolderprice" ng-if="orderConfirmationData.voucherAmount!=0">Voucher Discount:</p>
+      <b class="placeolderpricetotal">Total Amount Paid:</b>
+      </div>
+      <div class="right" style="width:50%; float:right;text-align:right;">
+      <p>{{unitPrice}} {{orderConfirmationData.grandOrderValue}}</p>
+      <p>(+){{unitPrice}} {{orderConfirmationData.totalShippingCharge}}</p>
+      <p>(-){{unitPrice}} 0</p>
+      <p ng-if="orderConfirmationData.voucherAmount!=0">(-){{unitPrice}} {{orderConfirmationData.voucherAmount}} </p>
+      <b>{{unitPrice}} {{orderConfirmationData.netPayableAmount}}</b>
+      </div>
+      </div>
+      </td>  
+     </tr>
+</tfoot> 
+ </table>
+ </div>
+  </div>
+  </div>
+  

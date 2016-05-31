@@ -10,8 +10,8 @@
 angular.module('gobzrliteApp')
   .factory('global', function () {
     // Service logic
-     var API_BUSS = "http://business.api.gobazaar.com/Business-Web/services/";
-     var API_DOMAIN = "http://domain.api.gobazaar.com/Gobazaar_Webshop/services/";
+     var API_BUSS = "http://172.16.0.39:8080/Business-Web/services/";
+     var API_DOMAIN = "http://172.16.0.39:8080/Gobazaar_Webshop/services/";
      var imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
     // Public API here
     return {

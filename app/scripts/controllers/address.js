@@ -174,7 +174,7 @@ $scope.deliverHere=function(addressData,counting){
 
   $localStorage.billingAddressId=$scope.savingBillingAddress.addressId;
   
-  $scope.fetchDeliveryAddress();
+  //$scope.fetchDeliveryAddress();
   
 
 
@@ -211,7 +211,7 @@ $scope.sameAsDeliveryAddress=function(){
   }
   
 }
-
+var actualAddressType;
 
 $scope.addAddressAtPayment=function(firstname,lastname,address,pincode,landMark,cityName,stateName,countryName,mobile,addressType){
 
@@ -230,7 +230,7 @@ if(addressType=='billing') {
          var formData=[
                 {
                    
-                    "customerId": $rootScope.customerId,
+                    "customerId": $cookies.get('customerId'),
                     "addressType": actualAddressType,
                     "mobileNo": mobile,
                     "landmark": landMark,
@@ -315,7 +315,7 @@ if(addressType=='billing') {
                 $('#addAddressButton').prop('disabled',false);
            }else{
                 $('#addAddressButton').prop('disabled',false);
-                $log.error(makeUiLog($cookies.get('sessionID'),$location.path(),results.responseCode,addressUrl,results,formData));
+//                $log.error(makeUiLog($cookies.get('sessionID'),$location.path(),results.responseCode,addressUrl,results,formData));
            }
          }).error(function (data,status,header,config)
                 {

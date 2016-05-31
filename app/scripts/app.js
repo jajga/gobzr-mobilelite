@@ -21,6 +21,8 @@ angular
     'ngStorage'
   ])
   .config(function ($routeProvider ,$urlRouterProvider,$stateProvider,$locationProvider) {
+    
+    
     $locationProvider.html5Mode({
      enabled: true
      }).hashPrefix('!');
@@ -233,6 +235,28 @@ angular
               return addressService.getAddress();
               }
           }
+        }).state('gobazarlite.payment', {
+          url: '/payment',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/payment.html',
+              controller: 'PaymentCtrl'
+            }
+          },
+          resolve:{
+            
+          }
+        }).state('gobazarlite.confirmation', {
+          url: '/confirmation',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/confirmation.html',
+              controller: 'ConfirmCtrl'
+            }
+          },
+          resolve:{
+            
+          }
         });
   }).run(function($rootScope,global,liveCategory,$stateParams,$cookies){
     $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/"
@@ -268,7 +292,7 @@ angular
 
                  
     })
-    $rootScope.custId=$cookies.get('customerId');
+    $rootScope.customerId=$cookies.get('customerId');
     if($cookies.get('useData')!=undefined && $cookies.get('useData')!='undefined'){
       var userData=JSON.parse($cookies.get('useData'));
       $rootScope.nameHeader='';

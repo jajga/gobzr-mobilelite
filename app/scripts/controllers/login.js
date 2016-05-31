@@ -122,7 +122,7 @@ angular.module('gobzrliteApp')
          $('#btn-login').prop('disabled', false);
          $('#waitLogin').hide();
          $('#loadingLogin').css("display", "none");
-       $log.error(makeUiLog($cookies.get('sessionID'),$location.path(),status,API.BusinessUrl+API.loginUrl+contentSearchGenericUrl,data,loginData));     
+//       $log.error(makeUiLog($cookies.get('sessionID'),$location.path(),status,API.BusinessUrl+API.loginUrl+contentSearchGenericUrl,data,loginData));     
       });
 
     

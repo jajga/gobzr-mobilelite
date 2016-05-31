@@ -89,7 +89,7 @@ My Cart
 </div>
 
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right block-place-order">
-<button type="button" class="btn btn-danger campaign" data-toggle="modal" ng-if="customerId==null" ng-click="redirctPath('mycart')" data-target="#login"  style="text-decoration:none;" onclick="window.location='/address';">PLACE ORDER</button>
+<button type="button" class="btn btn-danger campaign" data-toggle="modal" ng-if="customerId==null" ng-click="redirctPath('mycart')" style="text-decoration:none;" onclick="window.location='/login';">PLACE ORDER</button>
 <button type="button" class="btn btn-danger campaign" ng-if="customerId!=null" style="text-decoration:none;" ng-click="createOrder(ItemPrice,totalOrderedItems,totalShippingCharge)">PLACE ORDER</button>
 <br><img id="imgLoaderCart" ng-src="{{imageUrl}}loadingPleaseWait.gif" style="display:none;" />
 <button class="btn btn-danger bts" style="margin-top:10px;" onclick="window.location='/';">CONTINUE SHOPPING</button>
