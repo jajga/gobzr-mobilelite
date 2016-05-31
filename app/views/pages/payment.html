@@ -1,0 +1,50 @@
+<div class="col-lg-12">
+	<h2 style="font-family: sans-serif;">PAYMENT DETAILS</h2>
+</div>
+<div class="pay_method_row">
+<div class="col-lg-12 select_payment"><label class="select_payment_lbl" id="gobazaarcashondelivery">Pay using cash on delivery</label> </div>
+
+<div class="col-lg-12 pay_using_cash">
+<button type="submit" id="gobazaar_makepayment" class="btn btn-danger" data-toggle="modal" ng-click="sendOtpCOD()">MAKE PAYMENT</button><img id="imgLoaderMP" ng-src="{{imageUrl}}loadingPleaseWait.gif" style="display:none;margin-top:5px;" />
+  <div class="col-lg-12 select_payment"><label class="select_payment_lbl">Click on "Make Payment" to generate OTP.</label> </div>
+</div>
+</div>
+
+<div class="pay_method_row">
+  <div class="col-lg-12 pay_using_cash" id="codOtp" style="display:block;" ><!--  ng-if="CodOptionFlag" -->
+    <form class="form-inline" novalidate>
+      <div class="form-group">
+         <input type="password" class="form-control" id="validateInputID" ng-model="validateInput" placeholder="Enter OTP" ng-keyup="enableConfirm();" maxlength="6" autocomplete="off" numbers-only="numbers-only" />
+
+         <div class="checkbox">
+           <a href="javascript:void(0)" ng-click="sendOtpCOD()">Regenerate OTP</a>
+        </div>
+         <span class="validation" id="payment-cod-text" ng-show="flagOtpInvalid">OTP ENTERED IS INVALID</span>
+
+      <div class="paymentconfbtn">
+          <input type="hidden" ng-model="addressId" value="1">
+          <input type="hidden" value="{{orderID}}" ng-model="orderID">
+          <input type="hidden" ng-model="totalOrderPrice" value="{{totalOrderPrice-voucher.voucherAmount}}"> 
+          <input type="hidden" ng-model="totalMyOrderedItems" value="{{totalMyOrderedItems}}"> 
+          <input type="hidden" ng-model="totalMyShippingCharge" value="{{totalMyShippingCharge}}">
+         <br>
+          <!--Otp Resend msg -->
+          <label>
+               <span class="glyphicon glyphicon-ok" id="resendOtpSuccessMsg" style="display:none;color:#00FF00"></span>
+               <span ng-bind="resendOtpMsg" id="resendOtpSuccessMsg1" style="display:none;color:#00FF00"></span>
+          </label>
+          <br>
+          <label>
+               <span class="glyphicon glyphicon-remove" id="resendOtpFailMsg" style="display:none;color:#ec2227"></span>
+               <span ng-bind="resendOtpFMsg" id="resendOtpFailMsg1" style="display:none;color:#ec2227"></span>
+          </label>
+          <!-- Otp Resend msg Ends-->
+          <input type="button" id="confirmPayment" name="code-btn blue" class="btn btn-primary" value="CONFIRM" ng-click="confirmPaymentByCOD(validateInput)" disabled />
+          <img id="imgLoaderOTP" ng-src="{{imageUrl}}loadingPleaseWait.gif" style="display:none;" />
+      </div>
+
+      </div>
+      <p class="help-block">Please enter the 6-Digits OTP sent to your registered mobile number.</p>
+     </form>
+  </div>
+</div>
