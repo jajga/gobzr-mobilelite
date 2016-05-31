@@ -33,7 +33,7 @@ angular.module('gobzrliteApp')
            $scope.finalVal=$scope.inStock.amount;
 
            $scope.instock1=[];
-       $scope.instock2=[];
+           $scope.instock2=[];
 
            productService.getproductbynameByVendor($scope.productDescription.gbucode).success(function (results){
            if(results.responseCode=="SUCCESS" && results.entitiesResponse!=null) 

@@ -53,9 +53,7 @@ angular
               controller: 'HomeCtrl'
             }
           },
-          resolve:{
-            
-          }
+          resolve:{}
         }).state('gobazarlite.login', {
           url: '/login',
           views: {
@@ -208,12 +206,28 @@ angular
             }
           },
           resolve:{
+            /*"check":function($location,$cookies,$state,$timeout){ 
+                if($cookies.get('customerId'))
+                {
+                    //$state.go('gobazarlite.cart'); 
+                    
+                }
+                else
+                {
+               
+                    $timeout(function(){
+                      $state.go('gobazarlite.home');
+                    },1000);
+                    
+                }
+             },*/
             getCartProducts: function(cartService,$cookies){
-              if($cookies.get('customerId'))
+             console.log($cookies.get('customerId'));
+             if($cookies.get('customerId'))
                 {
                     var formData={
                      "customerId":$cookies.get('customerId'),
-                     "sessionId":$cookies.get('sessionID').toString()
+                     "sessionId":$cookies.get('sessionId').toString()
                    }; 
                 }
                 else
@@ -224,10 +238,7 @@ angular
                 }
               
               return cartService.getCart(formData);
-
-
             }
-            
           }
         })
         .state('gobazarlite.register', {
@@ -415,7 +426,6 @@ angular
     if($cookies.get('useData')!=undefined && $cookies.get('useData')!='undefined'){
       var userData=JSON.parse($cookies.get('useData'));
       $rootScope.nameHeader='';
-      console.log(userData);
       if(userData.firstName!='' && userData.firstName!=undefined && userData.firstName!='undefined'){
         $rootScope.nameHeader=userData.firstName;
       }

@@ -8,7 +8,7 @@
  * Controller of the gobzrliteApp
  */
 angular.module('gobzrliteApp')
-  .controller('RegisterCtrl', function (registerService,$scope,$rootScope,$cookies,$location) {
+  .controller('RegisterCtrl', function (registerService,$scope,$rootScope,$cookies,$location,md5) {
 
   $scope.register=function(){
     if($('#t_and_c').is(":checked")==false){   
@@ -22,7 +22,7 @@ angular.module('gobzrliteApp')
           {
              "loginType": "gobazaar"
          },
-         password:$scope.registerPassword,
+         password:md5.createHash($scope.registerPassword),
          mobileNumber:$scope.registerMobile,
          firstName:$scope.firstname,
          lastName:$scope.lastname,
@@ -90,7 +90,7 @@ angular.module('gobzrliteApp')
     var obj = {
         UserDetails: {
           email: $scope.registerEmail,
-          password:$scope.registerPassword,
+          password:md5.createHash($scope.registerPassword),
           mobile: $scope.registerMobile,
           firstname:$scope.firstname,
           lastname:$scope.lastname,
@@ -201,7 +201,7 @@ angular.module('gobzrliteApp')
     if(typeof($cookies.get('customerId'))=='undefined'){
       custId=null;
     }else{
-      custId=$rootScope.customerId;
+      custId=$cookies.get('customerId');
     }
     
     var formData={
@@ -217,105 +217,11 @@ angular.module('gobzrliteApp')
         $('#waitVerify').hide();
 
         /*Set Cookie on Register Login*/
-
-         $cookies.put('_GBUI',JSON.stringify(results.entitiesResponse['0']['baseDTO']))
-         /*var encryptedcustomerId = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].customerId.toString());
-         var encryptedcustomerEmailId = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].emailId.toString());
-         var encryptedcustomerloginSource = $crypto.encrypt(JSON.stringify(results.entitiesResponse['0']['baseDTO'].loginSource));*/
+         $cookies.put('useData',JSON.stringify(results.entitiesResponse['0']['baseDTO']));
+         console.log($cookies.get('useData'));
          $cookies.put('customerId',results.entitiesResponse['0']['baseDTO'].customerId.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
          $cookies.put('emailId',results.entitiesResponse['0']['baseDTO'].emailId.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-         //$cookies.put('mobileNumber',encryptedcustomerMobileNumber, {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-         $cookies.put('loginSource',JSON.stringify(results.entitiesResponse['0']['baseDTO'].loginSource), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-         
-
-         if(typeof(results.entitiesResponse['0']['baseDTO'].mobileNumber)!='undefined'){
-             //var encryptedcustomerMobileNumber = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].mobileNumber.toString());
-             $cookies.put('mobileNumber',results.entitiesResponse['0']['baseDTO'].mobileNumber.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-         }
-         if(typeof(results.entitiesResponse['0']['baseDTO'].alternateMobileNumber)!='undefined'){
-             //var encryptedcustomeralternateMobileNumber = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].alternateMobileNumber.toString());
-             $cookies.put('alternateMobileNumber',results.entitiesResponse['0']['baseDTO'].alternateMobileNumber.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-         }
         
-         if(results.entitiesResponse['0']['baseDTO'].imageName=='' || results.entitiesResponse['0']['baseDTO'].imageName==null ||  results.entitiesResponse['0']['baseDTO'].imageName==undefined)
-         { 
-          $cookies.put('imageName','', {'expires': $rootScope.expireDate});
-         }
-         else
-         { 
-          //var encryptedcustomerImageName = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].imageName.toString());
-          $cookies.put('imageName',results.entitiesResponse['0']['baseDTO'].imageName.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain})
-         }
-         if(results.entitiesResponse['0']['baseDTO'].firstName=='' || results.entitiesResponse['0']['baseDTO'].firstName==null || results.entitiesResponse['0']['baseDTO'].firstName==undefined)
-         {    
-             $cookies.put('firstName','', {'expires': $rootScope.expireDate});
-         }
-         else
-         { 
-            //var encryptedcustomerfirstName = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].firstName.toString());
-            $cookies.put('firstName',results.entitiesResponse['0']['baseDTO'].firstName.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-         }
-
-        if(results.entitiesResponse['0']['baseDTO'].lastName=='' || results.entitiesResponse['0']['baseDTO'].lastName==null || results.entitiesResponse['0']['baseDTO'].lastName==undefined)
-        {    
-            $cookies.put('lastName','', {'expires': $rootScope.expireDate});
-        }
-        else
-        {  
-            //var encryptedcustomerlastName = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].lastName.toString());
-            $cookies.put('lastName',results.entitiesResponse['0']['baseDTO'].lastName.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-        }
-        
-        if(typeof(results.entitiesResponse['0']['baseDTO'].dateOfBirth)!='undefined'){
-          //var encryptedDateOfBirth = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].dateOfBirth.toString());
-          //var encryptedStrDateOfBirth = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].dateOfBirth.toString());
-          $cookies.put('dateOfBirth',results.entitiesResponse['0']['baseDTO'].dateOfBirth.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-          $cookies.put('strDateOfBirth',results.entitiesResponse['0']['baseDTO'].dateOfBirth.toString(), {'expires': $rootScope.expireDate});
-        }
-        if(typeof(results.entitiesResponse['0']['baseDTO'].anniverseryDate)!='undefined'){
-            //var encryptedAnniverseryDate = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].anniverseryDate.toString());
-            //var encryptedStrAnniverseryDate = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].anniverseryDate.toString());
-            $cookies.put('anniverseryDate',results.entitiesResponse['0']['baseDTO'].anniverseryDate.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-            $cookies.put('strAnniverseryDate',results.entitiesResponse['0']['baseDTO'].anniverseryDate.toString(), {'expires': $rootScope.expireDate});
-        }
-        if(typeof(results.entitiesResponse['0']['baseDTO'].maritalStatus)!='undefined'){
-            //var encryptedMaritalStatus = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].maritalStatus.toString());
-            $cookies.put('maritalStatus',results.entitiesResponse['0']['baseDTO'].maritalStatus.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain}); 
-        }
-        
-        if(typeof(results.entitiesResponse['0']['baseDTO'].gender)!='undefined'){
-             //var encryptedGender = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].gender.toString());
-             $cookies.put('gender',results.entitiesResponse['0']['baseDTO'].gender.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-        }
-        
-        if(typeof(results.entitiesResponse['0']['baseDTO'].flag)!='undefined'){
-
-            // var encryptedFlag = $crypto.encrypt(results.entitiesResponse['0']['baseDTO'].flag.toString());
-             $cookies.put('flag',results.entitiesResponse['0']['baseDTO'].flag.toString(), {'expires': $rootScope.expireDate},{domain: $rootScope.mydomain});
-        
-        }  
-     /***************/
-
-          $('#varifyWindow').css("display", "none");
-          $('#logoutchangePassword').css("display", "block");
-          $('.giftTopConIcon').css("display", "block");
-
-          //$localStorage.loginStatus=true;
-
-          //$rootScope.loginStatus=true;
-
-
-          if(results.entitiesResponse['0']['baseDTO'].firstName=='undefined' || results.entitiesResponse['0']['baseDTO'].firstName==null ){
-
-              $("#welcome").html('Hi '+$rootScope.customerEmail);
-          }
-          else{
-
-           $("#welcome").html('Hi '+$rootScope.customerFirstName);
-       }
-       /*$('.modal-backdrop').removeClass('in');
-       $("#loginRegister").css("display", "none");
-       $('.modal-backdrop').css("display", "none");*/
        window.location.href='/';
    }
    else if(results.responseCode=="SUCCESS" && results.entitiesResponse==null){

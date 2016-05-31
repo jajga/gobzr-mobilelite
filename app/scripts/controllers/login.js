@@ -196,8 +196,13 @@ angular.module('gobzrliteApp')
       angular.forEach(cookies, function (v, k) {
           $cookies.remove(k);
     });
-    
-    window.location.href=$location.path();
+     
+     if($location.path()=='/mycart'){
+        window.location.href='/';
+     }else{
+        window.location.href=$location.path(); 
+     }     
+     
 };
 
 
