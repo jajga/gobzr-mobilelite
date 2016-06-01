@@ -292,6 +292,7 @@ angular
               return addressService.getAddress();
               }
           }
+<<<<<<< HEAD
         }).state('gobazarlite.payment', {
           url: '/payment',
           views: {
@@ -314,6 +315,28 @@ angular
           resolve:{
             
           }
+=======
+        }).state('gobazarlite.myOrder', {
+          url: '/myOrder',
+          views: {
+            '@':{
+              templateUrl: 'views/pages/myorder.html',
+              controller: 'MyorderCtrl'
+            }
+          },
+          resolve:{
+              "check":function($location,$cookies){ 
+                if($cookies.get('customerId'))
+                {
+                   $location.path('/myOrder'); 
+                }
+                else
+                {
+                    $location.path('/');
+                }
+            }
+          } 
+
         });
   }).run(function($rootScope,global,liveCategory,$stateParams,$cookies,errorMessage,webSite){
     $rootScope.imageProductListUrl="https:" == document.location.protocol ? "https://" + "static.gobazaar.com/dynamic/products/" : "http://" + "static.gobazaar.com/dynamic/products/";
@@ -367,6 +390,8 @@ angular
    $rootScope.resendVerifyCodeMsg=errorMessage.resendVerifyCodeMsg;
    $rootScope.resendVerifyCodeMsg1=errorMessage.resendVerifyCodeMsg1;
    $rootScope.resendVerifyCodeMsgFail=errorMessage.resendVerifyCodeMsgFail;
+   $rootScope.noMyOrder=errorMessage.noMyOrder;
+   $rootScope.ServiceFail=errorMessage.ServiceFail;
 
    if($cookies.get('customerId')!=undefined)
       {  
@@ -482,7 +507,9 @@ angular
     internalServerError:'Data is not submitted due to some internal server error. Please contact admistrator.',
     resendVerifyCodeMsg1:"Verification code resend successfully",
     resendVerifyCodeMsg:"A verification code has been sent to your mobile, please check.",
-    resendVerifyCodeMsgFail:'Failure, Please try after sometime.'          
+    resendVerifyCodeMsgFail:'Failure, Please try after sometime.',
+    noMyOrder:'NO ORDER FOUND.',
+    ServiceFail:'Service Failure.'       
   }).
   constant( 'webSite', {
     mydomain:'/'

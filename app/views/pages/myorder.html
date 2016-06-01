@@ -1,0 +1,405 @@
+<!-- Your order page Start -->
+<div class="container" id="myOrderContainer">
+<div class="row contaninertops">
+
+
+<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" id="myOrder">
+<div class="myordernme">
+<div class="clearfix"></div>
+<h1 id="my_order_tittle">My Order</h1>    
+</div>
+  <div class="alert alert-danger" style="text-align:center;" id="noMyOrder" ng-if="noMyOrder1">
+   <span ng-bind="noMyOrder"></span>
+  </div>
+
+  <div class="alert alert-danger" style="text-align:center;" id="serviceFail" ng-if="serviceFailFlag">
+   <span ng-bind="ServiceFail"></span>
+  </div>
+<div class="order" id="ordersList">
+
+<div class="row">
+   
+<div class="order_border1 col-lg-12 col-sm-12 col-md-12 col-xs-12"> 
+<div class="col-lg-3 col-sm-3 col-md-2 col-xs-3">ORDER ID</div>
+<div class="col-lg-1 col-sm-1 col-md-2 col-xs-1">QTY</div>
+<div class="col-lg-3 col-sm-3 col-md-3 col-xs-3">ORDER VALUE</div>
+<div class="col-lg-2 col-sm-2 col-md-2 col-xs-2">STATUS</div>
+<div class="col-lg-3 col-sm-3 col-md-3 col-xs-3 text-right"></div>
+</div>
+
+<!-- <H4 id="noOrdersShow" ng-if="!myOrdersData.orderHeaderDtoWrapperObj" style="color:red;">{{NoOrders}}</H4> -->
+<div id="waitOrderList" style="margin-left:350px;display:none;"><img ng-src="{{imageUrl}}loadingPleaseWait.gif"></div>
+<div ng-repeat="myorders in myOrdersData.orderHeaderDtoWrapperObj | filter:inputSearch:strict">
+
+<div class="order_border parents col-lg-12 col-sm-12 col-md-12 col-xs-12" id="initialDiv"> 
+<div class="col-lg-3 col-sm-3 col-md-2 col-xs-12">
+<ul class="order_id_class">
+    <li><span class="mobile_order"><!-- ORDER ID --></span>
+      <a  class="plus_sign" id="Order_idone" href="javascript:void(0)">{{myorders.orderId}}</a>
+    </li>
+ </ul>
+</div>
+<div class="col-lg-1 col-sm-1 col-md-2 col-xs-12"><span class="mobile_qty"><!-- QTY --></span>{{myorders.totalOrderedItems}}</div>
+<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12"><span class="mobile_order_value"><!-- ORDER VALUE --></span>{{myorders.netPayableAmount | noFractionCurrency:''}}</div>
+<div class="col-lg-2 col-sm-2 col-md-2 col-xs-12"><span class="mobile_status"><!-- STATUS --></span>{{myorders.orderStatus|uppercase}}</div>
+<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12 text-right">
+  <!-- <a href="trackOrder" ng-click="trackOrder(myorders.orderId)">
+    <button type="button" class="btn btn-primary btn-xs">TRACK ORDER</button>
+  </a> -->
+</div> 
+</div>
+
+
+<!--Order Details  -->
+<div class="product_row_container" >
+<div class="product_row_id" ng-repeat="myorderList in myorders.orderLine">
+<div class="order_img col-lg-4 col-md-4 col-sm-4 col-xs-12">
+<img class="img-responsive" err-src="{{noImageListing}}" ng-src="{{imageProductListUrl}}/{{myorderList.gbuCode}}/{{myorderList.thumbnailUrl}}" alt="order_mobile"> <!-- width="65" height="114" -->
+</div>
+<div class="order_product_discription col-lg-4 col-md-4 col-sm-4 col-xs-12">
+<div class="order_title">{{myorderList.title}}</div>
+<div class="order_color">{{myorderList.subTitle}}</div>
+<div class="order_quantity"><b>QTY:</b>{{myorderList.quantity}}</div>
+<div class="order_deliverdon" ng-show="myorderList.orderStatusLogs.length>0"><b>Delivered On:</b>
+      <span ng-repeat="orderStatusLogs in myorderList.orderStatusLogs">
+       <span ng-if="orderStatusLogs.status=='DISPATCHED'"> {{orderStatusLogs.createdDate| date:'fullDate'}}</span>
+      </span>
+</div>
+<div class="order_deliverdby" style="margin-bottom: 10px;" ng-show="myorderList.shipmentProvider"><b>Delivered By:</b> <span ></span>
+</div>
+
+<!-- <div class="order_deliverdby" style="margin-bottom: 10px;"><b>Delivered To:</b>
+{{myorders.orderLine[0].shippingAddressId.firstName}} {{myorders.orderLine[0].shippingAddressId.lastName}}<br>
+{{myorders.orderLine[0].shippingAddressId.address}} {{myorders.orderLine[0].shippingAddressId.pinCodeObj.area}}<br> -->
+<!-- {{myorders.orderLine[0].shippingAddressId.pinCodeObj.district}}<br> -->
+<!-- {{myorders.orderLine[0].shippingAddressId.pinCodeObj.city.cityName}}-{{myorders.orderLine[0].shippingAddressId.pinCodeObj.pincodeNumber}}<br>
+{{myorders.orderLine[0].shippingAddressId.pinCodeObj.state.stateName}}<br><br>
+Mobile: {{myorders.orderLine[0].shippingAddressId.mobileNo}}<br><br>
+Total Amount: {{unitPrice}} {{myorders.grandOrderValue | noFractionCurrency:''}}<br>
+Discount(-): No Discount<br>
+
+Shipping Charges: {{unitPrice}} {{myorders.totalShippingCharge | noFractionCurrency:''}}<br>
+Total Paid Amount: {{unitPrice}} {{myorders.netPayableAmount | noFractionCurrency:''}}<br>
+Payment Mode: {{myorders.paymentGateway.paymentMode | uppercase}}
+</div> -->
+
+<div class="order_deliverdby" ng-if="(myorderList.status | uppercase)=='RETURN INITIATED' || (myorderList.status | uppercase)=='CANCELLED' || (myorderList.status | uppercase)=='PNA'">Status: {{myorderList.status}}</div> 
+</div>
+
+<div class="order_product_btn col-lg-2 col-md-2 col-sm-2 col-xs-12" ng-if="myorderList.actionable=='Cancel'">
+<a href="javascript:void(0)" ng-click="cancelBtn(myorderList.orderLineId,myorders.paymentGateway,myorders.orderId,myorderList.vendorId,myorderList.thumbnailUrl,myorderList.productName,myorderList.salePrice,myorderList.quantity,myorderList.gbuCode,myorderList.title,myorderList.subTitle);" id="{{myorderList.orderLineId}}">
+<button id="order_cancel_one" type="button" class="btn btn-danger btn-xs">CANCEL</button>
+</a>
+</div>
+<div class="order_product_btn col-lg-2 col-md-2 col-sm-2 col-xs-12" ng-if="myorderList.actionable=='Return'">
+<a href="javascript:void(0)" ng-click="returnBtn(myorders.orderId,myorderList,myorders.paymentGateway,myorders.storedCreditUsed)" data-toggle="modal" data-target="#returnfieldspopup"><button id="order_cancel_one" type="button" class="btn btn-danger btn-xs">RETURN</button></a>
+</div>
+</div>
+</div>
+<!--  -->
+
+
+</div>
+<!-- div ng-repeat full -->
+
+</div>
+</div> 
+
+<!-- <div class="col-lg-9 col-sm-9 col-md-9 col-xs-12" id="returnRefund" style="display:none;">
+<div class="myordernme">
+<div class="clearfix"></div>
+<h1 style="margin-top:-1px;"><u>Mode of Refund</u></h1><br><br><br>
+<h1 style="margin-top:-10px;" ng-if="paymentMode=='COD'">For COD</h1>
+<h1 style="margin-top:-10px;" ng-if="paymentMode!='COD'">For Prepaid Order (amount reversed)</h1>
+</div>
+<br>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> -->
+
+  <!-- Div Inventing FOR PREPAID ORDER -->
+   <!-- <div class="inventing" ng-if="paymentMode!='COD'">
+         <br>
+         <div class="table-responsive">
+           <table class="table table-bordered">
+             <thead>
+               <tr>
+                 <th width="16%">Order ID</th>
+                 <th width="15%">Item ID </th>
+                 <th width="29%">Products Description </th>
+                 <th width="22%">Amount Paid</th>
+                 <th width="18%">Paid Through </th>
+                 </tr>
+             </thead>
+             <tbody>
+               <tr>
+                <td>&nbsp;{{orderId}}</td>
+                <td>&nbsp;{{myOrderList1.orderLineId}}</td>
+                <td>&nbsp;{{myOrderList1.productName}}</td>
+                <td>&nbsp;{{myOrderList1.orderLineValue | noFractionCurrency:''}}</td>
+                <td>&nbsp;{{paymentMode}}</td>
+                
+               </tr>
+             </tbody>
+           </table>
+         </div>
+       <br>
+
+      <a id="retRequestId" href="javascript:void(0)" ng-click="returnInitiate('prepaid',myOrderList1,storedCreditUsed)">
+      <button type="button"  id="MYORDER_applyforreturn" class="btn btn-primary">Apply For Refund</button></a>
+      <span id="initiateSuccess" style="display:none;">{{returnInitiated}}</span>
+      <span id="rejectReturn" style="display:none;">{{returnReject}}</span>
+     </div> -->
+  <!-- Div Inventing FOR PREPAID ORDER ENDS -->    
+
+
+  <!-- Div Inventing FOR COD ORDER  -->
+<!--       <div class="inventing" ng-if="paymentMode=='COD'">
+         <br>
+         <div class="table-responsive">
+           <table class="table table-bordered">
+             <thead>
+               <tr>
+                 <th width="16%">Order ID</th>
+                 <th width="15%">Item ID </th>
+                 <th width="29%">Products Description </th>
+                 <th width="22%">Amount Paid</th>
+                 <th width="18%">Paid Through </th>
+                 </tr>
+             </thead>
+             <tbody>
+               <tr>
+                <td>&nbsp;{{orderId}}</td>
+                <td>&nbsp;{{myOrderList1.orderLineId}}</td>
+                <td>&nbsp;{{myOrderList1.productName}}</td>
+                <td>&nbsp;{{myOrderList1.orderLineValue | noFractionCurrency:''}}</td>
+                <td>&nbsp;{{paymentMode}}</td>
+                
+               </tr>
+             </tbody>
+           </table>
+        </div>
+ <br>
+<form class="form-horizontal" id="bankForm" name="bankForm" novalidate ng-submit="bankForm.$valid && returnInitiate('COD',myOrderList1,storedCreditUsed)">
+      <div class="form-group myaddressleftside">
+        <label for="inputEmail3" class="col-sm-3 control-label myaddressleftside">Account Holder Name<font color="RED">*</font></label>
+        <div class="col-sm-6">
+         <input type="text" name="accHolderName"  maxlength="30" ng-pattern="/^[a-zA-Z ]+$/" class="form-control"  ng-minlength="3" id="accHolderName" ng-model="accHolderName" placeholder="Account Holder Name" required>
+
+          <span class="validation" ng-show="bankForm.accHolderName.$error.required || bankForm.accHolderName.$error.minlength" ng-if="bankForm.$submitted">
+             <span ng-bind="requiredAccHolderName"></span>
+          </span>
+          <span class="validation" ng-show="bankForm.accHolderName.$error.pattern" ng-if="bankForm.$submitted">
+            <span ng-bind="validAccHolderName"></span>
+         </span>
+
+        </div>
+      </div>
+      <div class="form-group myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label myaddressleftside">Bank Name<font color="RED">*</font></label>
+        <div class="col-sm-6">
+          <input type="text" name="bankName"  maxlength="30" ng-pattern="/^[a-zA-Z ]+$/" class="form-control"  ng-minlength="3"
+           id="bankName" ng-model="bankName" placeholder="Bank Name" required>
+
+          <span class="validation" ng-show="bankForm.bankName.$error.required || bankForm.bankName.$error.minlength" ng-if="bankForm.$submitted">
+             <span ng-bind="requiredBankName"></span>
+          </span>
+          <span class="validation" ng-show="bankForm.bankName.$error.pattern" ng-if="bankForm.$submitted">
+             <span ng-bind="validBankName"></span>
+          </span>
+
+        </div>
+      </div>
+       <div class="form-group myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label myaddressleftside">Bank Account Number<font color="RED">*</font></label>
+        <div class="col-sm-6">
+          <input type="text" name="accNumber"  maxlength="16" ng-pattern="/^\d{9,16}$/" class="form-control" minlength="9"
+           id="accNumber" ng-model="accNumber" placeholder="Account Number" required>
+
+          <span class="validation" ng-show="bankForm.accNumber.$error.required " ng-if="bankForm.$submitted">
+             <span ng-bind="requiredBankAccountNumber"></span>
+          </span>
+          <span class="validation" ng-show="bankForm.accNumber.$error.pattern" ng-if="bankForm.$submitted">
+             <span ng-bind="validBankAccountNumber"></span>
+          </span>
+
+        </div>
+      </div>
+      <div class="form-group myaddressleftside">
+        <label for="inputPassword3" class="col-sm-3 control-label myaddressleftside">IFSC Code<font color="RED">*</font></label>
+        <div class="col-sm-6">
+          <input type="text" name="ifscCode"  maxlength="11" ng-pattern="/^\w{4}[0][a-zA-Z0-9]{6}$/" class="form-control" 
+            ng-minlength="11" id="ifscCode" ng-model="ifscCode" placeholder="IFSC CODE" required>
+
+          <span class="validation" ng-show="bankForm.ifscCode.$error.required " ng-if="bankForm.$submitted">
+            <span ng-bind="requiredIfscCode"></span>
+          </span>
+          <span class="validation" ng-show="bankForm.ifscCode.$error.pattern" ng-if="bankForm.$submitted">
+              <span ng-bind="validIfscCode"></span>
+          </span>
+        </div>
+      </div>
+      <div class="form-group myaddressleftside">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6"><button type="submit" id="MYORDER_applyforreturn" class="btn btn-primary">Apply For Refund</button>
+          <div id="waitMyOrderReturn1" style="display:none;margin-top:5px;"><img ng-src="{{imageUrl}}loadingPleaseWait.gif"></div>
+
+        </div>
+      </div>
+
+        <br>
+      <span id="initiateSuccess" style="display:none;">{{returnInitiated}}</span>
+      <span id="rejectReturn" style="display:none;">{{returnReject}}</span>
+    </form>
+      </div> -->
+      <!-- Div Inventing FOR COD ORDER ENDS -->
+<!--     </div>
+ 
+   </div>
+</div> -->
+<!-- return div ends -->
+
+<!-- </div>
+</div> -->
+
+<!-- Cancel Popup-->
+<!-- <section id="Login24" class="loginForm" >
+  <div class="modal fade" id="cancelfieldspopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog returnpop" style="height:auto;">
+<div class="modal-header"> 
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true"><img ng-src="{{imageUrl}}closes.png" class="img-responsive" /></span></button> 
+<h4 class="modal-title" id="myModalLabel" style="text-align:left;">Why do you want to Cancel your order?</h4> </div>     
+<div class="returnpopup">
+   <form role="form" id="cancelForm" name="cancelForm" novalidate ng-submit="cancelForm.$valid && cancelProduct();">
+  <div class="form-group labelcontent" style="text-align:left; margin-top:20px;">
+  <label for="exampleInputEmail1" class="labelcontent">Reason for cancellation<font color="RED">*</font></label>
+
+   <select class="form-control" name="cancelId" required
+        ng-change="reasonCancelId();"
+        ng-model="cancelId"
+        ng-options="selectCancel.cancelReasonId as selectCancel.subCategory for selectCancel in cancel">
+           <option value="" selected>Select</option>
+   </select>
+
+   <span class="validation" id="errCancel" ng-show="cancelForm.cancelId.$error.required" ng-if="cancelForm.$submitted">
+         <span ng-bind="requiredSelect"></span>
+    </span>
+    
+  </div>
+
+  <div class="form-group labelcontent" style="text-align:left;">
+  <label for="exampleInputPassword1" class="labelcontent">Sub Reason<font color="RED">*</font></label>
+
+    <select id="canReason" ng-model="subCancelReasonId" name="subCancelReasonId" class="form-control" required
+     ng-options="selectCancel.cancelReasonId as selectCancel.subCategory for selectCancel in cancelSubSubReason">
+       <option value="" selected>Select</option>
+    </select>
+
+       <span class="validation" id="errCancel1" ng-show="cancelForm.subCancelReasonId.$error.required" ng-if="cancelForm.$submitted">
+             <span ng-bind="requiredSelectSubReason"></span>
+        </span>
+  </div>
+ 
+  <div class="form-group labelcontent" style="text-align:left;">
+    <label for="exampleInputPassword1" class="labelcontent">Additional Remarks<font color="RED">*</font></label>
+    <textarea class="form-control" rows="5" id="comment" name="comment" ng-model="comment" required></textarea>
+     <span class="validation"  ng-show="cancelForm.comment.$error.required" 
+     ng-if="cancelForm.$submitted">
+           <span ng-bind="requiredComment"></span>
+     </span>
+  </div>
+  <button type="submit" class="btn btn-primary" ng-click="showErrCancel();">Confirm</button> <button type="button" ng-click="discardPopCancel();" class="btn btn-primary">Discard</button>
+  <div id="waitMyOrder" style="display:none;margin-top: 5px;"><img ng-src="{{imageUrl}}loadingPleaseWait.gif"></div>
+</form>
+ 
+</div>
+</div>
+</div>
+</section> -->
+<!-- Cancel Popup End -->
+
+<!-- Cancel Success Popup Start -->
+<!-- <section id="Login24" class="loginForm" >
+  <div class="modal fade" id="cancelpopupSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog returnpop">
+<div class="modal-header"> 
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true"><img ng-src="{{imageUrl}}closes.png" class="img-responsive" /></span></button> 
+<h4 class="modal-title" id="myModalLabel" style="text-align:left;">Cancel</h4> </div>     
+<div class="returnpopup">
+<h1><span style="float:left; padding-top:6px;"><img ng-src="{{imageUrl}}rights.jpg" class="img-responsive" /></span> Your cancellation request is being processed!</h1>
+<br><br><br>
+
+We have received your cancellation request for the following item(s). A confirmation alert will be sent to your registered email ID, once your cancellation request is processed.  <br>
+<br>
+<div class="row">
+<div class="col-lg-5"><img width="65" height="114" err-src="{{noImageListing}}" ng-src="{{imageProductListUrl}}/{{gbuCode}}/{{thumbnailUrl}}" alt=""></div>
+<div class="col-lg-6">
+
+<p class="returncontents">
+{{title}}<br>{{subtitle}}<br>
+<span style="color:#acacac;"><span ng-bind="quantity"></span> item / <span ng-bind="unitPrice"></span> <span ng-bind="salePrice | noFractionCurrency:'' "></span></span><br><br><br>
+<strong style="color:#acacac;">Payment mode: <span ng-bind="paymentMode"></span> </strong>
+</p>
+
+</div>
+</div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- Cancel Success Popup End -->
+
+<!-- Return Popup-->
+<!-- <section id="Login24" class="loginForm" >
+  <div class="modal fade" id="returnfieldspopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog returnpop">
+<div class="modal-header"> 
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true"><img ng-src="{{imageUrl}}closes.png" class="img-responsive" /></span></button> 
+<h4 class="modal-title" id="myModalLabel" style="text-align:center;">Return</h4> </div>     
+<div class="returnpopup">
+ <form role="form" id="returnForm" name="returnForm" novalidate ng-submit="returnForm.$valid && confirmReturn(subReturnReasonId,returnComment);">
+  <div class="form-group labelcontent" style="text-align:left; margin-top:20px;">
+    <label for="exampleInputEmail1" class="labelcontent">Reason for return<font color="RED">*</font></label>
+    
+      <select id="returReason" name="returReason" class="form-control" required
+        ng-change="returnReasons();"
+        ng-model="reasonId"
+        ng-options="selectReturn.returnReasonId as selectReturn.subCategory for selectReturn in reasons">
+        <option value="">Select</option>
+    </select>
+      <span class="validation" id="errReturn"  ng-show="returnForm.returReason.$error.required" ng-if="returnForm.$submitted">
+               <span ng-bind="requiredSelect"></span>
+        </span>
+    
+  </div>
+  <div class="form-group labelcontent" style="text-align:left;">
+    <label for="exampleInputPassword1" class="labelcontent">Sub Reason<font color="RED">*</font></label>
+       <select id="subReason" ng-model="subReturnReasonId" name="subReturnReasonId" class="form-control" required
+    ng-options="selectReturn.returnReasonId as selectReturn.subSubCategory for selectReturn in subReasons">
+        <option value="">Select</option>
+        
+      </select>
+    <span class="validation" id="errReturn" ng-show="returnForm.subReturnReasonId.$error.required" ng-if="returnForm.$submitted">
+              <span ng-bind="requiredSelectSubReason"></span>
+        </span>
+  </div>
+ 
+  <div class="form-group labelcontent" style="text-align:left;">
+    <label for="exampleInputPassword1" class="labelcontent">Additional Remarks<font color="RED">*</font></label>
+    <textarea class="form-control" name="returnComment" ng-model="returnComment" rows="5" id="returnComment" required></textarea>
+    <span class="validation"  ng-show="returnForm.returnComment.$error.required" ng-if="returnForm.$submitted">
+           <span ng-bind="requiredComment"></span>
+     </span>
+  </div>
+  <button type="submit" class="btn btn-primary" ng-click="showErrReturn();">Confirm</button> <button type="button" ng-click="discardPopReturn();" class="btn btn-primary">Discard</button>
+  <div id="waitMyOrderReturn" style="display:none;margin-top: 5px;"><img ng-src="{{imageUrl}}loadingPleaseWait.gif"></div>
+</form>
+</div>
+    </div>
+  </div>
+</section> -->
+<!-- Return Popup End -->
+
+
