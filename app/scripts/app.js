@@ -292,7 +292,6 @@ angular
               return addressService.getAddress();
               }
           }
-<<<<<<< HEAD
         }).state('gobazarlite.payment', {
           url: '/payment',
           views: {
@@ -315,7 +314,6 @@ angular
           resolve:{
             
           }
-=======
         }).state('gobazarlite.myOrder', {
           url: '/myOrder',
           views: {
@@ -463,9 +461,7 @@ angular
        if($cookies.get('gender')!=undefined) {
           $rootScope.customerGender=$cookies.get('gender');
        }
-       
-       
-      } else {
+        else {
        
         $rootScope.customerId=null
         $rootScope.customerEmail=null
