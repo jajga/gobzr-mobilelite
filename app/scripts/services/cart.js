@@ -10,6 +10,8 @@
 angular.module('gobzrliteApp')
   .service('cartService', function (global,$http,$cookies) {
   	console.log("hello");
+  	console.log("hello2");
+  	console.log("hello3");
     // AngularJS will instantiate a singleton by calling "new" on this function
     console.log('hello4');
     this.getCart=function(formData){
